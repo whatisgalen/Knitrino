@@ -6,7 +6,7 @@ import StepDetail from '../StepDetail';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import YokeScreen from './Yoke';
-// import { addSize, addGauge } from '../../store/actions/index';
+import { addSize, addGauge } from '../../store/actions/index';
 
 class BodyScreen extends Component {
     constructor(props) {
@@ -80,11 +80,7 @@ class BodyScreen extends Component {
         }
     }
 
-    rowHandler = ()=> {
-        return (
-            (this.state.stitchNumber)
-        );
-    }
+    rowHandler = ()=> { return ((this.state.stitchNumber)); }
    
     render () {
         return (
@@ -260,5 +256,12 @@ const styles = StyleSheet.create({
 //     };
 // };
 
+const mapStateToProps = state => {
+    return {
+        size: state.size,
+        gauge: state.gauge
+    };
+};
+export default connect(null, mapStateToProps)(BodyScreen);
 // export default connect(null, mapDispatchToProps)( BodyScreen);
-export default BodyScreen;
+// export default BodyScreen;

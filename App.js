@@ -30,6 +30,5 @@ Navigation.startSingleScreenApp({
   screen: {
     screen: "knitrino.AuthScreen",
     title: "Welcome to Knitrino"
-
   }
 });

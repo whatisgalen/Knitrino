@@ -4,7 +4,6 @@ import {StyleSheet, View, TextInput, Button, Text} from 'react-native';
 class DimensionsInput extends Component {
 
     state = {
-        // placeName: '',
         size: '',
         gauge: ''
     };
