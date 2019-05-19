@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-// import StepList from '../../components/StepList/StepList'
 import StepDetail from '../StepDetail';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
-import YokeScreen from './Yoke';
-import { addSize, addGauge } from '../../store/actions/index';
+// import { augmentStitch } from '../../store/actions/index';
 
 class BodyScreen extends Component {
     constructor(props) {
@@ -29,11 +27,21 @@ class BodyScreen extends Component {
             });
         }
     }
-
+    toggleSummary = () => {
+        this.props.navigator.push({
+            screen: 'knitrino.SummaryScreen',
+            title: 'Summary',
+            animated: true,
+            animationType: 'slide-horizontal'
+        });
+    }
+    rowHandler = ()=> { return ((this.state.stitchNumber)); }
     nextStepHandler = event => {
+        console.log(this.props.size);
         let currentStep = this.state.step;
         if(this.state.step < bodySteps.length-1) {
             this.setState({
+                ...this.state,
                 step: (currentStep+1)
             });
         } else {
@@ -46,22 +54,11 @@ class BodyScreen extends Component {
             });
         }
     }
-
-    toggleSummary = () => {
-        this.props.navigator.push({
-            screen: 'knitrino.SummaryScreen',
-            title: 'Summary',
-            animated: true,
-            animationType: 'slide-horizontal'
-        });
-    }
-
     submitNotesHandler = (newNotes) => {
         alert("saved: "+ newNotes);
         const currentStep = this.state.step;
         this.state.notes[currentStep] = newNotes;
     }
-
     incrementRow = event => {
         let currentStitchNumber = this.state.stitchNumber;
         const newStitchNumber = currentStitchNumber+1;
@@ -69,7 +66,6 @@ class BodyScreen extends Component {
             stitchNumber: newStitchNumber
         });
     }
-
     decrementRow = event => {
         const currentStitchNumber = this.state.stitchNumber;
         const newStitchNumber = currentStitchNumber-1;
@@ -79,8 +75,6 @@ class BodyScreen extends Component {
             });
         }
     }
-
-    rowHandler = ()=> { return ((this.state.stitchNumber)); }
    
     render () {
         return (
@@ -88,6 +82,7 @@ class BodyScreen extends Component {
 
                 <View style={styles.stepContainer}>
                     <StepDetail 
+                        // something={this.props.size}
                         sectionName={bodySteps[this.state.step].sectionName}
                         text={bodySteps[this.state.step].text}
                         step={this.state.step}
@@ -249,11 +244,10 @@ const styles = StyleSheet.create({
         fontSize: 18
     }
 });
+
+//this would be if state had a global "augment" for augmenting stich #
 // const mapDispatchToProps = dispatch => {
-//     return {
-//         onAddSize: (newSize) => dispatch(addSize(newSize)),
-//         onAddGauge: (newGauge) => dispatch(addGauge(newGauge))
-//     };
+//     return { onAugmentStitch: (aug) => dispatch(augmentStitch(aug)) };
 // };
 
 const mapStateToProps = state => {
@@ -262,6 +256,5 @@ const mapStateToProps = state => {
         gauge: state.gauge
     };
 };
-export default connect(null, mapStateToProps)(BodyScreen);
-// export default connect(null, mapDispatchToProps)( BodyScreen);
-// export default BodyScreen;
+export default connect(mapStateToProps)(BodyScreen);
+// export default connect(mapStateToProps, mapDispatchToProps)( BodyScreen);

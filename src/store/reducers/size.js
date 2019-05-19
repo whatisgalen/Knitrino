@@ -1,10 +1,5 @@
-// import React, { Component } from 'react';
 import { ADD_SIZE } from '../actions/actionTypes';
-
-const initialState = {
-    size: 0
-};
-
+const initialState = { size: 36 };
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_SIZE:
@@ -14,8 +9,6 @@ const reducer = (state = initialState, action) => {
             };
         default:
             return state;
-        
     }
 };
-
 export default reducer;

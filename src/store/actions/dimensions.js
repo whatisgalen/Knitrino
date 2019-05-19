@@ -6,7 +6,6 @@ export const addSize = (newSize)=>{
         size: newSize
     };
 };
-
 export const addGauge = (newGauge)=>{
     return {
         type: ADD_GAUGE,

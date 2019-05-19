@@ -1,10 +1,8 @@
 import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
-
 import AuthScreen from './src/screens/Auth/Auth';
-import SideDrawer from './src/screens/SideDrawer/SideDrawer';
+// import SideDrawer from './src/screens/SideDrawer/SideDrawer';
 
-//new screens for knitrino
 import UserInputScreen from './src/screens/UserInput/UserInput';
 import BodyScreen from './src/screens/Sections/Body';
 import YokeScreen from './src/screens/Sections/Yoke';
@@ -22,10 +20,8 @@ Navigation.registerComponent("knitrino.YokeScreen", ()=> YokeScreen, store, Prov
 // Navigation.registerComponent("knitrino.StepDetailScreen", ()=> StepDetailScreen);
 Navigation.registerComponent("knitrino.SummaryScreen", ()=> SummaryScreen);
 
-
 // Navigation.registerComponent("knitrino.SideDrawerScreen", ()=> SideDrawer);
 
-//start an app
 Navigation.startSingleScreenApp({
   screen: {
     screen: "knitrino.AuthScreen",
