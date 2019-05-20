@@ -20,6 +20,18 @@ class BodyScreen extends Component {
         notes: {}
     };
 
+    componentDidMount() {
+        this.setState({
+            ...this.state,
+            castOn: calcCastOn(this.props.size, this.props.gauge)
+        }, ()=>{
+            this.setState({
+                ...this.state,
+                underArmJoin: calcUnderArmJoin(this.props.size, this.props.gauge)
+            });
+        });
+    }
+
     onNavigatorEvent = event => {
         console.log(event);
         if(event.id === "bottomTabReselected") {
@@ -78,13 +90,13 @@ class BodyScreen extends Component {
     castOn = () => {
         console.log(this.state);
         if(!this.state.castOn) {
-            // while(!this.componentDidMount) {
-            //     console.log("stuck in loop");
-            // }
+          
             this.setState({
                 ...this.state,
                 castOn: calcCastOn(this.props.size,this.props.gauge)
-            }, ()=> { console.log("in setState; "+this.state); return this.state.castOn;});s
+            }, ()=> { 
+                console.log("in setState; "+this.state);return this.state.castOn;
+            });
             
         } else {
             console.log("in else; "+this.state.castOn);
