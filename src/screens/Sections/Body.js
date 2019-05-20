@@ -46,7 +46,7 @@ class BodyScreen extends Component {
         } else {
             // console.log(this.props.navigator);
             this.props.navigator.push({
-                screen: 'knitrino.YokeScreen',
+                screen: 'knitrino.SleeveAScreen',
                 title: 'Yoke Steps',
                 animated: true,
                 animationType: 'slide-horizontal'
@@ -76,7 +76,7 @@ class BodyScreen extends Component {
     bodySteps = [
         {
             sectionName: "Body",
-            text: "Using 32\" circular needles one size smaller than you swatched with,  "+castOn(this.props.size, this.props.gauge)+" stitches. Place a marker at the end, and join in the round.",
+            text: "Using 32\" circular needles one size smaller than you swatched with, cast on "+castOn(this.props.size, this.props.gauge)+" stitches. Place a marker at the end, and join in the round.",
             imgSrc: "",
             counter: false 
         },
