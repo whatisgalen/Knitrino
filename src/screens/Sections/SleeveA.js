@@ -47,7 +47,7 @@ class SleeveAScreen extends Component {
             // console.log(this.props.navigator);
             this.props.navigator.push({
                 screen: 'knitrino.SleeveBScreen',
-                title: 'Yoke Steps',
+                title: 'Sleeve B Steps',
                 animated: true,
                 animationType: 'slide-horizontal'
             });
