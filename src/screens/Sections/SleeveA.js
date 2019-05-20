@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 // import { augmentStitch } from '../../store/actions/index';
 
-class Sleeve1Screen extends Component {
+class SleeveAScreen extends Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -46,7 +46,7 @@ class Sleeve1Screen extends Component {
         } else {
             // console.log(this.props.navigator);
             this.props.navigator.push({
-                screen: 'knitrino.Sleeve2Screen',
+                screen: 'knitrino.SleeveBScreen',
                 title: 'Yoke Steps',
                 animated: true,
                 animationType: 'slide-horizontal'
@@ -296,5 +296,5 @@ const mapStateToProps = state => {
         gauge: state.gauge.gauge
     };
 };
-export default connect(mapStateToProps)(Sleeve1Screen);
+export default connect(mapStateToProps)(SleeveAScreen);
 // export default connect(mapStateToProps, mapDispatchToProps)( BodyScreen);

@@ -37,8 +37,6 @@ class BodyScreen extends Component {
     }
     rowHandler = ()=> { return ((this.state.stitchNumber)); }
     nextStepHandler = event => {
-        // console.log(this.state.bodyCastOn);
-        // console.log(this.calcCastOn());
         let currentStep = this.state.step;
         if(this.state.step < this.bodySteps.length-1) {
             this.setState({
@@ -48,7 +46,7 @@ class BodyScreen extends Component {
         } else {
             // console.log(this.props.navigator);
             this.props.navigator.push({
-                screen: 'knitrino.Sleeve1Screen',
+                screen: 'knitrino.YokeScreen',
                 title: 'Yoke Steps',
                 animated: true,
                 animationType: 'slide-horizontal'

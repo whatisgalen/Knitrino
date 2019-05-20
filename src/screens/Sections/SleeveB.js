@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 // import { augmentStitch } from '../../store/actions/index';
 
-class Sleeve2Screen extends Component {
+class SleeveBScreen extends Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -290,5 +290,5 @@ const mapStateToProps = state => {
         gauge: state.gauge.gauge
     };
 };
-export default connect(mapStateToProps)(Sleeve2Screen);
+export default connect(mapStateToProps)(SleeveBScreen);
 // export default connect(mapStateToProps, mapDispatchToProps)( BodyScreen);
