@@ -78,12 +78,13 @@ class BodyScreen extends Component {
     castOn = () => {
         console.log(this.state);
         if(!this.state.castOn) {
-            if(this.componentDidMount()) {
-                this.setState({
-                    ...this.state,
-                    castOn: calcCastOn(this.props.size,this.props.gauge)
-                }, ()=> { console.log("in setState; "+this.state); return this.state.castOn;});
+            while(!this.componentDidMount()) {
+                console.log("stuck in loop");
             }
+            this.setState({
+                ...this.state,
+                castOn: calcCastOn(this.props.size,this.props.gauge)
+            }, ()=> { console.log("in setState; "+this.state); return this.state.castOn;});s
             
         } else {
             console.log("in else; "+this.state.castOn);
