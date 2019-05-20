@@ -5,6 +5,8 @@ import AuthScreen from './src/screens/Auth/Auth';
 
 import UserInputScreen from './src/screens/UserInput/UserInput';
 import BodyScreen from './src/screens/Sections/Body';
+import Sleeve1Screen from './src/screens/Sections/Sleeve1';
+import Sleeve1Screen from './src/screens/Sections/Sleeve2';
 import YokeScreen from './src/screens/Sections/Yoke';
 // import StepDetailScreen from './src/screens/StepDetail';
 import SummaryScreen from './src/screens/Summary/Summary';
@@ -16,6 +18,8 @@ const store = configureStore();
 Navigation.registerComponent("knitrino.AuthScreen", ()=> AuthScreen, store, Provider );
 Navigation.registerComponent("knitrino.UserInputScreen", ()=> UserInputScreen, store, Provider);
 Navigation.registerComponent("knitrino.BodyScreen", ()=> BodyScreen, store, Provider);
+Navigation.registerComponent("knitrino.Sleeve1Screen", ()=> Sleeve1Screen, store, Provider);
+Navigation.registerComponent("knitrino.Sleeve2Screen", ()=> Sleeve2Screen, store, Provider);
 Navigation.registerComponent("knitrino.YokeScreen", ()=> YokeScreen, store, Provider);
 // Navigation.registerComponent("knitrino.StepDetailScreen", ()=> StepDetailScreen);
 Navigation.registerComponent("knitrino.SummaryScreen", ()=> SummaryScreen);

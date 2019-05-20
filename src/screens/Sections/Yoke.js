@@ -32,7 +32,7 @@ class YokeScreen extends Component {
 
     nextStepHandler = event => {
         let currentStep = this.state.step;
-        if(this.state.step < yokeSteps.length-1) {
+        if(this.state.step < this.yokeSteps.length-1) {
             this.setState({
                 step: (currentStep+1)
             });
@@ -77,6 +77,51 @@ class YokeScreen extends Component {
             (this.state.stitchNumber)
         );
     }
+
+    yokeSteps = [
+        {
+            sectionName: "Yoke",
+            text: "Now the fun begins - uniting the sleeves with the body.",
+            imgSrc: "",
+            counter: false 
+        },
+        {
+            sectionName: "Yoke",
+            text: "Place first and last "+(underArmJoin(this.props.size, this.props.gauge)/2)+" stitches of the body on a holder. Using largest circular need and starting at the back left sleeve, knit "+(sleeveMax(this.props.size, this.props.gauge) - underArmJoin(this.props.size, this.props.gauge))+" sleeve stitches, and place a marker. Knit the next "+((castOn(this.props.size, this.props.gauge) - 2*underArmJoin(this.props.size, this.props.gauge))/4)+" stitches on the front, and place next "+underArmJoin(this.props.size, this.props.gauge)+" stitches of body on holder. Knit "+(sleeveMax(this.props.size, this.props.gauge) - underArmJoin(this.props.size, this.props.gauge))+" stitches on the right sleeve and place marker. Knit the next "+((castOn(this.props.size,this.props.gauge) - (2*underArmJoin(this.props.size,this.props.gauge)))/4)+" stitches of back, place marker and join in the round "+yoke(this.props.size,this.props.gauge)+" stitches.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit in the round until yoke is "+(yokeDepth(this.props.size,this.props.gauge)/2)+" inches, about ({yoke depth}*{vgauge}/2) rounds.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit 1, knit 2 together, all the way around, "+(Math.round(yoke(this.props.size,this.props.gauge)*(2/3)))+" stitches remaining.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(yokeDepth(this.props.size,this.props.gauge)/4))+" inches.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit 1, knit 2 together, all the way around, "+(Math.round(yoke(this.props.size,this.props.gauge)*((2/3)^2)))+" stitches remaining.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(yokeDepth(this.props.size,this.props.gauge)/4))+" inches.",
+            imgSrc: "",
+            counter: false
+        }
+    ];
    
     render () {
         return (
@@ -84,8 +129,8 @@ class YokeScreen extends Component {
 
                 <View style={styles.stepContainer}>
                     <StepDetail
-                        sectionName={yokeSteps[this.state.step].sectionName}
-                        text={yokeSteps[this.state.step].text}
+                        sectionName={this.yokeSteps[this.state.step].sectionName}
+                        text={this.yokeSteps[this.state.step].text}
                         step={this.state.step}
                         oldNotes={this.state.notes[this.state.step]}
                         onNextStep={this.nextStepHandler}
@@ -129,51 +174,26 @@ class YokeScreen extends Component {
     }
 }
 
-//these get passed to StepDetailScreen as props
-const yokeSteps = [
-    {
-        sectionName: "Yoke",
-        text: "Now the fun begins - uniting the sleeves with the body.",
-        imgSrc: "",
-        counter: false 
-    },
-    {
-        sectionName: "Yoke",
-        text: "Place first and last {underarm join}/2 stitches of the body on a holder. Using largest circular need and starting at the back left sleeve, knit ({sleeve max} - {underarm join}) sleeve stitches, and place a marker. Knit the next (({cast on} - 2*{underarm join})/4) stitches on the front, and place next {underarm join} stitches of body on holder. Knit ({sleeve max} - {underarm join}) stitches on the right sleeve and place marker. Knit the next (({cast on} - 2*{underarm join})/4) stitches of back, place marker and join in the round ({yoke} stitches.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Yoke",
-        text: "Knit in the round until yoke is {yoke depth}/2 inches, about ({yoke depth}*{vgauge}/2) rounds.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Yoke",
-        text: "Knit 1, knit 2 together, all the way around, ({yoke}*2/3) stitches remaining.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Yoke",
-        text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about ({yoke depth}/4) inches.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Yoke",
-        text: "Knit 1, knit 2 together, all the way around, ROUND(({yoke}*(2/3)^2)) stitches remaining.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Yoke",
-        text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about ({yoke depth}/4) inches.",
-        imgSrc: "",
-        counter: false
-    }
-];
+function MRound(number, multipleOf) {
+    let rounded = number;
+    while(rounded % multipleOf != 0) { if(rounded % multipleOf >= (multipleOf/2)) {rounded++;} else {rounded--;} }
+    return rounded;
+}
+function castOn(size, gauge) { return MRound(Math.round(size * gauge), 4); }
+function underArmJoin(size, gauge) { return MRound( Math.round(castOn(size, gauge) * 0.08), 2); }
+function sleeveCastOn(size, gauge) { return MRound(castOn(Math.round(size, gauge)/5), 4); }
+function sleeveMax(size, gauge) {
+    let sleeveMax = Math.round(castOn(size, gauge)* 0.333333);
+    if(sleeveMax % 2 != 0) {sleeveMax++;}
+    return sleeveMax;
+}
+function sleeveRows(gauge) { return MRound(((18-13.1)*Math.round(gauge/0.73)), 2); }
+function increaseTimes(size, gauge) { return Math.round((sleeveMax(size, gauge) - sleeveCastOn(size, gauge))/ 2); }
+function sleeveLength(size) { if(size <= 44) {return 18;} else if(size > 50) { return 19.75;} else { return 19; } }
+function yoke(size, gauge) {
+    return MRound( Math.round(castOn(size, gauge) - (2* underArmJoin(size, gauge))+(2*(sleeveMax(size, gauge) - underArmJoin(size, gauge)))), 2 );
+}
+function yokeDepth(size, gauge) { return Math.round((yoke(size, gauge) / gauge)/4); }
 
 const styles = StyleSheet.create({
     container: {

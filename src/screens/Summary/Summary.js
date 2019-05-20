@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity, FlatList, TouchableHighlight, ImageBackground, Dimensions} from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import StepListCard from '../../components/StepListCard';
 // import startMainTabs from '../MainTabs/startMainTabs';
@@ -29,19 +30,18 @@ class SummaryScreen extends Component {
         let stepStr = "";
         let j = 1;
         let theKey;
-        for(let i=0; i < steps.length; i++) {
-            if(steps[i].sectionName == this.state.section) {
+        for(let i=0; i < this.steps.length; i++) {
+            if(this.steps[i].sectionName == this.state.section) {
                 // console.log(steps[i].text);
-                stepStr = ""+(j++)+" - "+steps[i].text;
+                stepStr = ""+(j++)+" - "+this.steps[i].text;
                 if(stepStr.length > 50) {
                     stepStr = stepStr.substring(0,50)+"...";
                 }
-                theKey = ""+i+""+j+""+steps[i].text.length+"";
+                theKey = ""+i+""+j+""+this.steps[i].text.length+"";
                 stepCards.push({
                     key: theKey, 
                     value: stepStr,
-                    // expanded: false, 
-                    full: steps[i].text,
+                    full: this.steps[i].text,
                     altKey: theKey
                 });
             }
@@ -57,6 +57,237 @@ class SummaryScreen extends Component {
             animationType: 'fade',
         });
     }
+
+    steps = [
+        {
+            sectionName: "Body",
+            text: "Using 32\" circular needles one size smaller than you swatched with,  "+castOn(this.props.size, this.props.gauge)+" stitches. Place a marker at the end, and join in the round.",
+            imgSrc: "",
+            counter: false 
+        },
+        {
+            sectionName: "Body",
+            text: "With yarn in front, slip 1 stitch as if to purl, then knit 1 stitch. Repeat to end.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Body",
+            text: "Purl 1, then with yarn in back, slip 1 as if to purl. Repeat to end.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Body",
+            text: "*Purl 1, then slip 1 stitch onto cable needle and hold in front. Purl 1, then knit 1 from the cable needle. Knit 1. Repeat from * to end of round. Repeat from * until 2 stitches remain. Purl 2.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Body",
+            text: "Change to {needle size 2} {needle type2}. Purl 2, knit 2 until ribbing measures 2\" from cast on.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Body",
+            text: "Change to {needle size 3} {needle type 2}. Knit stockinette stitch in the round until sweater body measures 15.5\" in length.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Body",
+            text: "That's it! Now take "+underArmJoin(this.props.size, this.props.gauge)+" stitches on either side of the body and put them on threads or a stitch holder. Be sure there are exactly the same number of stitches on the front and back, which should be "+((castOn(this.props.size, this.props.gauge) - underArmJoin(this.props.size, this.props.gauge))/2)+". Place front and back stitches on separate holder(s).",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Body",
+            text: "That's it! Now it\'s time for sleeves.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "Using 32\" circular needles, cast on "+castOn(this.props.size, this.props.gauge)+" stitches. Place a marker at the end, and join in the round.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "With yarn in front, slip 1 stitch as if to purl, then knit 1 stitch. Repeat to end.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "Purl 1, then with yarn in back, slip 1 as if to purl. Repeat to end.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "*Purl 1, then slip 1 stitch onto cable needle and hold in front. Purl 1, then knit 1 from the cable needle. Knit 1. Repeat from * until 2 stitches remain. Purl 2.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "Change to {needle size 2} {needle type2}. Purl 2, knit 2 until ribbing measures 2\" from cast on. ",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "Change to {needle size 3} {needle type3}. Knit 14 rounds in stockinette stitch.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "Now increase 2 stitches: Knit 1, make 1 left, knit to last stitch, make 1 right, knit one. ",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "Knit 4 rounds in stockinette.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "Repeat steps 7 and 8 "+increaseTimes(this.props.size, this.props.gauge)+" times, until you have "+sleeveMax(this.props.size, this.props.gauge)+" stitches",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "Continue knitting in stockinette stitch for "+sleeveRows(this.props.gauge)+" rows, until your sleeve is "+sleeveLength(this.props.size)+" from cast on, or desired length. ",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "That's it! Now take the "+underArmJoin(this.props.size, this.props.gauge)+" stitches directly above the underarm increases and put them on threads or a stitch holder. Put remaining stitches on a separate holder.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve1",
+            text: "Just one more sleeve to go!",
+            imgSrc: "",
+            counter: false
+        },
+        { //sleeve cast on or (body) cast on?
+            sectionName: "Sleeve2",
+            text: "Using size 4 32\" circular needles, cast on "+castOn(this.props.size, this.props.gauge)+" stitches. Place a marker at the end, and join in the round.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve2",
+            text: "With yarn in front, slip 1 stitch as if to purl, then knit 1 stitch. Repeat to end.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve2",
+            text: "Purl 1, then with yarn in back, slip 1 as if to purl. Repeat to end.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve2",
+            text: "*Purl 1, then slip 1 stitch onto cable needle and hold in front. Purl 1, then knit 1 from the cable needle. Knit 1. Repeat from * until 2 stitches remain. Purl 2.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve2",
+            text: "Change to {needle size 2} {needle type2}. Purl 2, knit 2 until ribbing measures 2\" from cast on. ",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve2",
+            text: "Change to {needle size 3} {needle type3}. Knit 14 rounds in stockinette stitch.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve2",
+            text: "Now increase 2 stitches: Knit 1, make 1 left, knit to last stitch, make 1 right, knit one. ",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve2",
+            text: "Knit 4 rounds in stockinette.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve2",
+            text: "Repeat steps 7 and 8 "+increaseTimes(this.props.size,this.props.gauge)+" times, until you have "+sleeveMax(this.props.size, this.props.gauge)+" stitches",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve2",
+            text: "Continue knitting in stockinette stitch for "+sleeveRows(this.props.gauge)+" rows, until your sleeve is "+sleeveLength(this.props.size)+" from cast on, or desired length. ",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Sleeve2",
+            text: "That's it! Now take the "+underArmJoin(this.props.size, this.props.gauge)+" stitches directly above the underarm increases and put them on threads or a stitch holder. Put remaining stitches on a separate holder.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Yoke",
+            text: "Now the fun begins - uniting the sleeves with the body.",
+            imgSrc: "",
+            counter: false 
+        },
+        {
+            sectionName: "Yoke",
+            text: "Place first and last "+(underArmJoin(this.props.size, this.props.gauge)/2)+" stitches of the body on a holder. Using largest circular need and starting at the back left sleeve, knit "+(sleeveMax(this.props.size, this.props.gauge) - underArmJoin(this.props.size, this.props.gauge))+" sleeve stitches, and place a marker. Knit the next "+((castOn(this.props.size, this.props.gauge) - 2*underArmJoin(this.props.size, this.props.gauge))/4)+" stitches on the front, and place next "+underArmJoin(this.props.size, this.props.gauge)+" stitches of body on holder. Knit "+(sleeveMax(this.props.size, this.props.gauge) - underArmJoin(this.props.size, this.props.gauge))+" stitches on the right sleeve and place marker. Knit the next "+((castOn(this.props.size,this.props.gauge) - (2*underArmJoin(this.props.size,this.props.gauge)))/4)+" stitches of back, place marker and join in the round "+yoke(this.props.size,this.props.gauge)+" stitches.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit in the round until yoke is "+(yokeDepth(this.props.size,this.props.gauge)/2)+" inches, about ({yoke depth}*{vgauge}/2) rounds.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit 1, knit 2 together, all the way around, "+(Math.round(yoke(this.props.size,this.props.gauge)*(2/3)))+" stitches remaining.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(yokeDepth(this.props.size,this.props.gauge)/4))+" inches.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit 1, knit 2 together, all the way around, "+(Math.round(yoke(this.props.size,this.props.gauge)*((2/3)^2)))+" stitches remaining.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(yokeDepth(this.props.size,this.props.gauge)/4))+" inches.",
+            imgSrc: "",
+            counter: false
+        }
+    ];
 
     render () {
         return (
@@ -113,6 +344,26 @@ class SummaryScreen extends Component {
         );
     }
 }
+function MRound(number, multipleOf) {
+    let rounded = number;
+    while(rounded % multipleOf != 0) { if(rounded % multipleOf >= (multipleOf/2)) {rounded++;} else {rounded--;} }
+    return rounded;
+}
+function castOn(size, gauge) { return MRound(Math.round(size * gauge), 4); }
+function underArmJoin(size, gauge) { return MRound( Math.round(castOn(size, gauge) * 0.08), 2); }
+function sleeveCastOn(size, gauge) { return MRound(castOn(Math.round(size, gauge)/5), 4); }
+function sleeveMax(size, gauge) {
+    let sleeveMax = Math.round(castOn(size, gauge)* 0.333333);
+    if(sleeveMax % 2 != 0) {sleeveMax++;}
+    return sleeveMax;
+}
+function sleeveRows(gauge) { return MRound(((18-13.1)*Math.round(gauge/0.73)), 2); }
+function increaseTimes(size, gauge) { return Math.round((sleeveMax(size, gauge) - sleeveCastOn(size, gauge))/ 2); }
+function sleeveLength(size) { if(size <= 44) {return 18;} else if(size > 50) { return 19.75;} else { return 19; } }
+function yoke(size, gauge) {
+    return MRound( Math.round(castOn(size, gauge) - (2* underArmJoin(size, gauge))+(2*(sleeveMax(size, gauge) - underArmJoin(size, gauge)))), 2 );
+}
+function yokeDepth(size, gauge) { return Math.round((yoke(size, gauge) / gauge)/4); }
 
 const sections = ["Body","Sleeves","Yoke","Finishing"];
 
@@ -157,97 +408,11 @@ const styles = StyleSheet.create({
     }
 });
 
-const steps = [
-    {
-        sectionName: "Body",
-        text: "Using 32\" circular needles one size smaller than you swatched with, {cast on} cast on stitches. Place a marker at the end, and join in the round.",
-        imgSrc: "",
-        counter: false 
-    },
-    {
-        sectionName: "Body",
-        text: "With yarn in front, slip 1 stitch as if to purl, then knit 1 stitch. Repeat to end.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Body",
-        text: "Purl 1, then with yarn in back, slip 1 as if to purl. Repeat to end.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Body",
-        text: "*Purl 1, then slip 1 stitch onto cable needle and hold in front. Purl 1, then knit 1 from the cable needle. Knit 1. Repeat from * to end of round. Repeat from * until 2 stitches remain. Purl 2.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Body",
-        text: "Change to {needle size 2} {needle type2}. Purl 2, knit 2 until ribbing measures 2\" from cast on.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Body",
-        text: "Change to {needle size 3} {needle type 2}. Knit stockinette stitch in the round until sweater body measures 15.5\" in length.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Body",
-        text: "That's it! Now take {underarm join} stitches on either side of the body and put them on threads or a stitch holder. Be sure there are exactly the same number of stitches on the front and back, which should be ({cast on} - {underarm join})/2). Place front and back stitches on separate holder(s).",
-        imgSrc: "",
-        counter: false
-    },
-    {
-        sectionName: "Body",
-        text: "That's it! Now it\'s time for sleeves.",
-        imgSrc: "",
-        counter: false
-    },
-    {
-        sectionName: "Yoke",
-        text: "Now the fun begins - uniting the sleeves with the body.",
-        imgSrc: "",
-        counter: false 
-    },
-    {
-        sectionName: "Yoke",
-        text: "Place first and last {underarm join}/2 stitches of the body on a holder. Using largest circular need and starting at the back left sleeve, knit ({sleeve max} - {underarm join}) sleeve stitches, and place a marker. Knit the next (({cast on} - 2*{underarm join})/4) stitches on the front, and place next {underarm join} stitches of body on holder. Knit ({sleeve max} - {underarm join}) stitches on the right sleeve and place marker. Knit the next (({cast on} - 2*{underarm join})/4) stitches of back, place marker and join in the round ({yoke} stitches.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Yoke",
-        text: "Knit in the round until yoke is {yoke depth}/2 inches, about ({yoke depth}*{vgauge}/2) rounds.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Yoke",
-        text: "Knit 1, knit 2 together, all the way around, ({yoke}*2/3) stitches remaining.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Yoke",
-        text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about ({yoke depth}/4) inches.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Yoke",
-        text: "Knit 1, knit 2 together, all the way around, ROUND(({yoke}*(2/3)^2)) stitches remaining.",
-        imgSrc: "",
-        counter: true
-    },
-    {
-        sectionName: "Yoke",
-        text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about ({yoke depth}/4) inches.",
-        imgSrc: "",
-        counter: false
-    }
-];
+const mapStateToProps = state => {
+    return {
+        size: state.size.size,
+        gauge: state.gauge.gauge
+    };
+};
 
-export default SummaryScreen;
+export default connect(mapStateToProps)(SummaryScreen);
