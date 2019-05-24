@@ -14,8 +14,8 @@ class BodyScreen extends Component {
             step: 0,
             // augment: 0,
             stitchNumber: 1,
-            castOn: false,
-            underArmJoin: false,
+            castOn: 0,
+            underArmJoin: 0,
             notes: {}
         };
     }
@@ -93,36 +93,7 @@ class BodyScreen extends Component {
         }
     }
 
-    // castOn = () => {
-    //     console.log(this.state);
-    //     if(!this.state.castOn) {
-          
-    //         this.setState({
-    //             ...this.state,
-    //             castOn: calcCastOn(this.props.size,this.props.gauge)
-    //         }, ()=> { 
-    //             console.log("in setState; "+this.state);return this.state.castOn;
-    //         });
-            
-    //     } else {
-    //         console.log("in else; "+this.state.castOn);
-    //         return this.state.castOn;
-    //     }
-    // }
-
-    // underArmJoin = () => {
-    //     // const state = this.state;
-    //     if(!this.state.underArmJoin) {
-    //         this.setState({
-    //             ...this.state,
-    //             underArmJoin: calcUnderArmJoin(this.props.size, this.props.gauge)
-    //         }, ()=> {return this.state.underArmJoin;});
-    //     } else {
-    //         return this.state.underArmJoin;
-    //     }
-    // }
-
-    bodySteps = [
+    bodySteps =()=> { return [
         {
             sectionName: "Body",
             text: "Using 32\" circular needles one size smaller than you swatched with, cast on "+(this.state.castOn)+" stitches. Place a marker at the end, and join in the round.",
@@ -171,7 +142,7 @@ class BodyScreen extends Component {
             imgSrc: "",
             counter: false
         }
-    ];
+    ];}
    
     render () {
         return (
@@ -180,8 +151,8 @@ class BodyScreen extends Component {
                 <View style={styles.stepContainer}>
                     <StepDetail 
                         // something={this.props.size}
-                        sectionName={this.bodySteps[this.state.step].sectionName}
-                        text={this.bodySteps[this.state.step].text}
+                        sectionName={this.bodySteps()[this.state.step].sectionName}
+                        text={this.bodySteps()[this.state.step].text}
                         step={this.state.step}
                         oldNotes={this.state.notes[this.state.step]}
                         onNextStep={this.nextStepHandler}

@@ -12,13 +12,8 @@ import YokeScreen from './src/screens/Sections/Yoke';
 import SummaryScreen from './src/screens/Summary/Summary';
 
 import configureStore from './src/store/configureStore';
-// try {
-  const store = configureStore();
-//   console.log(store.getState());
-// } catch (error) {
-//   console.log(error);
-// }
-// const store = configureStore();
+const store = configureStore();
+
 // console.log(store.getState());
 
 //register screens by id

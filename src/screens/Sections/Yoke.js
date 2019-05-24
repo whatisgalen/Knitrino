@@ -37,23 +37,23 @@ class YokeScreen extends Component {
     componentDidMount() {
         const newCastOn = CastOn(this.props.size, this.props.gauge);
         const newUnderArmJoin = UnderArmJoin(newCastOn);
-        const newSleeveMax = SleeveMax(newCastOn);
-        const newSleeveRows = SleeveRows(this.props.gauge);
-        const newSleeveLength = SleeveLength(this.props.size);
-        const newSleeveCastOn = SleeveCastOn(newCastOn);
-        const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
-        const newYoke = Yoke(newCastOn);
-        const newYokeDepth = YokeDepth(newYoke, this.props.gauge); 
+        // const newSleeveMax = SleeveMax(newCastOn);
+        // const newSleeveRows = SleeveRows(this.props.gauge);
+        // const newSleeveLength = SleeveLength(this.props.size);
+        // const newSleeveCastOn = SleeveCastOn(newCastOn);
+        // const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
+        // const newYoke = Yoke(newCastOn);
+        // const newYokeDepth = YokeDepth(newYoke, this.props.gauge); 
         this.setState({
             ...this.state,
             castOn: newCastOn,
             underArmJoin: newUnderArmJoin,
-            increaseTimes: newIncreaseTimes,
-            sleeveMax: newSleeveMax,
-            sleeveRows: newSleeveRows,
-            sleeveLength: newSleeveLength,
-            yoke: newYoke,
-            yokeDepth: newYokeDepth
+            // increaseTimes: newIncreaseTimes,
+            // sleeveMax: newSleeveMax,
+            // sleeveRows: newSleeveRows,
+            // sleeveLength: newSleeveLength,
+            // yoke: newYoke,
+            // yokeDepth: newYokeDepth
         });
     }
 

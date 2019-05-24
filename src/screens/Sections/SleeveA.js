@@ -33,19 +33,19 @@ class SleeveAScreen extends Component {
     componentDidMount() {
         const newCastOn = CastOn(this.props.size, this.props.gauge);
         const newUnderArmJoin = UnderArmJoin(newCastOn);
-        const newSleeveMax = SleeveMax(newCastOn);
-        const newSleeveRows = SleeveRows(this.props.gauge);
-        const newSleeveLength = SleeveLength(this.props.size);
-        const newSleeveCastOn = SleeveCastOn(newCastOn);
-        const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
+        // const newSleeveMax = SleeveMax(newCastOn);
+        // const newSleeveRows = SleeveRows(this.props.gauge);
+        // const newSleeveLength = SleeveLength(this.props.size);
+        // const newSleeveCastOn = SleeveCastOn(newCastOn);
+        // const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
         this.setState({
             ...this.state,
             castOn: newCastOn,
             underArmJoin: newUnderArmJoin,
-            increaseTimes: newIncreaseTimes,
-            sleeveMax: newSleeveMax,
-            sleeveRows: newSleeveRows,
-            sleeveLength: newSleeveLength
+            // increaseTimes: newIncreaseTimes,
+            // sleeveMax: newSleeveMax,
+            // sleeveRows: newSleeveRows,
+            // sleeveLength: newSleeveLength
         });
     }
 
