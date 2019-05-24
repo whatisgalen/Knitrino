@@ -12,7 +12,6 @@ export const addGauge = (newGauge)=>{
         gauge: newGauge
     };
 };
-
 export const setVars = (newVars)=>{
     //
     return {
