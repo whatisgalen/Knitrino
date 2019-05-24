@@ -13,8 +13,30 @@ class SummaryScreen extends Component {
     state = {
         section: "",
         // step: 0,
+        castOn: false,
+        underArmJoin: false,
+        increaseTimes: false,
+        sleeveMax: false,
+        sleeveRows: false,
+        sleeveLength: false,
+        yoke: false,
+        yokeDepth: false,
         stringKeys: []
     };
+
+    componentDidMount() {
+        this.setState({
+            ...this.state,
+            castOn: this.props.vars.castOn,
+            underArmJoin: this.props.vars.underArmJoin,
+            increaseTimes: this.props.vars.increaseTimes,
+            sleeveMax: this.props.vars.sleeveMax,
+            sleeveRows: this.props.vars.sleeveRows,
+            sleeveLength: this.props.vars.sleeveLength,
+            yoke: this.props.vars.yoke,
+            yokeDepth: this.props.vars.yokeDepth
+        });
+    }
 
     Toggler = (newSection) => {
         // console.log("param: "+newSection);
@@ -411,7 +433,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         size: state.size.size,
-        gauge: state.gauge.gauge
+        gauge: state.gauge.gauge,
+        vars: state.vars
     };
 };
 

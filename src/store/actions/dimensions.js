@@ -1,4 +1,4 @@
-import { ADD_SIZE, ADD_GAUGE } from './actionTypes';
+import { ADD_SIZE, ADD_GAUGE, SET_VARS } from './actionTypes';
 
 export const addSize = (newSize)=>{
     return {
@@ -10,5 +10,13 @@ export const addGauge = (newGauge)=>{
     return {
         type: ADD_GAUGE,
         gauge: newGauge
+    };
+};
+
+export const setVars = (newVars)=>{
+    //
+    return {
+        type: SET_VARS,
+        vars: newVars
     };
 };

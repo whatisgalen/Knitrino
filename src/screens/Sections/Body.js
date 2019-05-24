@@ -10,25 +10,29 @@ class BodyScreen extends Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+        state = {
+            step: 0,
+            // augment: 0,
+            stitchNumber: 1,
+            castOn: false,
+            underArmJoin: false,
+            notes: {}
+        };
     }
-    state = {
-        step: 0,
-        // augment: 0,
-        stitchNumber: 1,
-        castOn: false,
-        underArmJoin: false,
-        notes: {}
-    };
+    // state = {
+    //     step: 0,
+    //     // augment: 0,
+    //     stitchNumber: 1,
+    //     castOn: false,
+    //     underArmJoin: false,
+    //     notes: {}
+    // };
 
     componentDidMount() {
         this.setState({
             ...this.state,
-            castOn: calcCastOn(this.props.size, this.props.gauge)
-        }, ()=>{
-            this.setState({
-                ...this.state,
-                underArmJoin: calcUnderArmJoin(this.props.size, this.props.gauge)
-            });
+            castOn: this.props.vars.castOn,
+            underArmJoin: this.props.vars.underArmJoin
         });
     }
 
@@ -87,39 +91,39 @@ class BodyScreen extends Component {
         }
     }
 
-    castOn = () => {
-        console.log(this.state);
-        if(!this.state.castOn) {
+    // castOn = () => {
+    //     console.log(this.state);
+    //     if(!this.state.castOn) {
           
-            this.setState({
-                ...this.state,
-                castOn: calcCastOn(this.props.size,this.props.gauge)
-            }, ()=> { 
-                console.log("in setState; "+this.state);return this.state.castOn;
-            });
+    //         this.setState({
+    //             ...this.state,
+    //             castOn: calcCastOn(this.props.size,this.props.gauge)
+    //         }, ()=> { 
+    //             console.log("in setState; "+this.state);return this.state.castOn;
+    //         });
             
-        } else {
-            console.log("in else; "+this.state.castOn);
-            return this.state.castOn;
-        }
-    }
+    //     } else {
+    //         console.log("in else; "+this.state.castOn);
+    //         return this.state.castOn;
+    //     }
+    // }
 
-    underArmJoin = () => {
-        // const state = this.state;
-        if(!this.state.underArmJoin) {
-            this.setState({
-                ...this.state,
-                underArmJoin: calcUnderArmJoin(this.props.size, this.props.gauge)
-            }, ()=> {return this.state.underArmJoin;});
-        } else {
-            return this.state.underArmJoin;
-        }
-    }
+    // underArmJoin = () => {
+    //     // const state = this.state;
+    //     if(!this.state.underArmJoin) {
+    //         this.setState({
+    //             ...this.state,
+    //             underArmJoin: calcUnderArmJoin(this.props.size, this.props.gauge)
+    //         }, ()=> {return this.state.underArmJoin;});
+    //     } else {
+    //         return this.state.underArmJoin;
+    //     }
+    // }
 
     bodySteps = [
         {
             sectionName: "Body",
-            text: "Using 32\" circular needles one size smaller than you swatched with, cast on "+(this.castOn())+" stitches. Place a marker at the end, and join in the round.",
+            text: "Using 32\" circular needles one size smaller than you swatched with, cast on "+(this.state.castOn)+" stitches. Place a marker at the end, and join in the round.",
             imgSrc: "",
             counter: false 
         },
@@ -155,7 +159,7 @@ class BodyScreen extends Component {
         },
         {
             sectionName: "Body",
-            text: "That's it! Now take "+this.underArmJoin+" stitches on either side of the body and put them on threads or a stitch holder. Be sure there are exactly the same number of stitches on the front and back, which should be "+((this.castOn - this.underArmJoin)/2)+". Place front and back stitches on separate holder(s).",
+            text: "That's it! Now take "+this.state.underArmJoin+" stitches on either side of the body and put them on threads or a stitch holder. Be sure there are exactly the same number of stitches on the front and back, which should be "+((this.state.castOn - this.state.underArmJoin)/2)+". Place front and back stitches on separate holder(s).",
             imgSrc: "",
             counter: false
         },
@@ -219,13 +223,13 @@ class BodyScreen extends Component {
         );
     }
 }
-function MRound(number, multipleOf) {
-    let rounded = number;
-    while(rounded % multipleOf != 0) { if(rounded % multipleOf >= (multipleOf/2)) {rounded++;} else {rounded--;} }
-    return rounded;
-}
-function calcCastOn(size, gauge) { return MRound(Math.round(size * gauge), 4); }
-function calcUnderArmJoin(size, gauge) { return MRound( Math.round(castOn(size, gauge) * 0.08), 2); }
+// function MRound(number, multipleOf) {
+//     let rounded = number;
+//     while(rounded % multipleOf != 0) { if(rounded % multipleOf >= (multipleOf/2)) {rounded++;} else {rounded--;} }
+//     return rounded;
+// }
+// function calcCastOn(size, gauge) { return MRound(Math.round(size * gauge), 4); }
+// function calcUnderArmJoin(size, gauge) { return MRound( Math.round(castOn(size, gauge) * 0.08), 2); }
 
 const styles = StyleSheet.create({
     container: {
@@ -299,7 +303,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         size: state.size.size,
-        gauge: state.gauge.gauge
+        gauge: state.gauge.gauge,
+        vars: state.vars
     };
 };
 export default connect(mapStateToProps)(BodyScreen);

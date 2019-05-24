@@ -12,13 +12,83 @@ class YokeScreen extends Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+        state = {
+            step: 0,
+            // augment: 0,
+            castOn: false,
+            underArmJoin: false,
+            increaseTimes: false,
+            sleeveMax: false,
+            sleeveRows: false,
+            sleeveLength: false,
+            yoke: false,
+            yokeDepth: false,
+            stitchNumber: 1,
+            notes: {}
+        };
     }
-    state = {
-        step: 0,
-        // augment: 0,
-        stitchNumber: 1,
-        notes: {}
-    };
+    // state = {
+    //     step: 0,
+    //     // augment: 0,
+    //     stitchNumber: 1,
+    //     notes: {}
+    // };
+
+    componentDidMount() {
+        this.setState({
+            ...this.state,
+            castOn: this.props.vars.castOn,
+            underArmJoin: this.props.vars.underArmJoin,
+            increaseTimes: this.props.vars.increaseTimes,
+            sleeveMax: this.props.vars.sleeveMax,
+            sleeveRows: this.props.vars.sleeveRows,
+            sleeveLength: this.props.vars.sleeveLength,
+            yoke: this.props.vars.yoke,
+            yokeDepth: this.props.vars.yokeDepth
+        });
+    }
+
+    // componentDidMount() {
+    //     this.setState({
+    //         ...this.state,
+    //         castOn: this.props.vars.castOn
+    //     }, ()=>{
+    //         this.setState({
+    //             ...this.state,
+    //             underArmJoin: this.props.vars.underArmJoin
+    //         }, ()=>{
+    //             this.setState({
+    //                 ...this.state,
+    //                 increaseTimes: this.props.vars.increaseTimes
+    //             }, ()=>{
+    //                 this.setState({
+    //                     ...this.state,
+    //                     sleeveMax: this.props.vars.sleeveMax
+    //                 }, ()=>{
+    //                     this.setState({
+    //                         ...this.state,
+    //                         sleeveRows: this.props.vars.sleeveRows
+    //                     }, ()=>{
+    //                         this.setState({
+    //                             ...this.state,
+    //                             sleeveLength: this.props.vars.sleeveLength
+    //                         }, ()=>{
+    //                             this.setState({
+    //                                 ...this.state,
+    //                                 yoke: this.props.vars.yoke
+    //                             }, ()=>{
+    //                                 this.setState({
+    //                                     ...this.state,
+    //                                     yokeDepth: this.props.vars.yokeDepth
+    //                                 });
+    //                             });
+    //                         });
+    //                     });
+    //                 });
+    //             });
+    //         });
+    //     });
+    // }
 
     onNavigatorEvent = event => {
         console.log(event);
@@ -181,7 +251,7 @@ function MRound(number, multipleOf) {
 }
 function castOn(size, gauge) { return MRound(Math.round(size * gauge), 4); }
 function underArmJoin(size, gauge) { return MRound( Math.round(castOn(size, gauge) * 0.08), 2); }
-function sleeveCastOn(size, gauge) { return MRound(castOn(Math.round(size, gauge)/5), 4); }
+function sleeveCastOn(size, gauge) { return MRound(Math.round(castOn(size, gauge)/5), 4); }
 function sleeveMax(size, gauge) {
     let sleeveMax = Math.round(castOn(size, gauge)* 0.333333);
     if(sleeveMax % 2 != 0) {sleeveMax++;}

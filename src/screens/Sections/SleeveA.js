@@ -10,13 +10,37 @@ class SleeveAScreen extends Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+        state = {
+            step: 0,
+            // augment: 0,
+            castOn: false,
+            underArmJoin: false,
+            increaseTimes: false,
+            sleeveMax: false,
+            sleeveRows: false,
+            sleeveLength: false,
+            stitchNumber: 1,
+            notes: {}
+        };
     }
-    state = {
-        step: 0,
-        // augment: 0,
-        stitchNumber: 1,
-        notes: {}
-    };
+    // state = {
+    //     step: 0,
+    //     // augment: 0,
+    //     stitchNumber: 1,
+    //     notes: {}
+    // };
+
+    componentDidMount() {
+        this.setState({
+            ...this.state,
+            castOn: this.props.vars.castOn,
+            underArmJoin: this.props.vars.underArmJoin,
+            increaseTimes: this.props.vars.increaseTimes,
+            sleeveMax: this.props.vars.sleeveMax,
+            sleeveRows: this.props.vars.sleeveRows,
+            sleeveLength: this.props.vars.sleeveLength
+        });
+    }
 
     onNavigatorEvent = event => {
         console.log(event);
@@ -76,7 +100,7 @@ class SleeveAScreen extends Component {
     sleeve1Steps = [
         {
             sectionName: "Sleeve1",
-            text: "Using 32\" circular needles, cast on "+castOn(this.props.size, this.props.gauge)+" stitches. Place a marker at the end, and join in the round.",
+            text: "Using 32\" circular needles, cast on "+this.state.castOn+" stitches. Place a marker at the end, and join in the round.",
             imgSrc: "",
             counter: false
         },
@@ -207,7 +231,7 @@ function MRound(number, multipleOf) {
 }
 function castOn(size, gauge) { return MRound(Math.round(size * gauge), 4); }
 function underArmJoin(size, gauge) { return MRound( Math.round(castOn(size, gauge) * 0.08), 2); }
-function sleeveCastOn(size, gauge) { return MRound(castOn(Math.round(size, gauge)/5), 4); }
+function sleeveCastOn(size, gauge) { return MRound(Math.round(castOn(size, gauge)/5), 4); }
 function sleeveMax(size, gauge) {
     let sleeveMax = Math.round(castOn(size, gauge)* 0.333333);
     if(sleeveMax % 2 != 0) {sleeveMax++;}

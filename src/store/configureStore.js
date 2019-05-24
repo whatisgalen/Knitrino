@@ -1,10 +1,12 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import sizeReducer from './reducers/size';
 import gaugeReducer from './reducers/gauge';
+import varsReducer from './reducers/vars';
 
 const rootReducer = combineReducers({
     size: sizeReducer,
-    gauge: gaugeReducer
+    gauge: gaugeReducer,
+    vars: varsReducer
 });
 let composeEnhancers = compose;
 if(__DEV__) {
