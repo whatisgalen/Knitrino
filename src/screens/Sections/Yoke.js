@@ -35,16 +35,25 @@ class YokeScreen extends Component {
     // };
 
     componentDidMount() {
+        const newCastOn = CastOn(this.props.size, this.props.gauge);
+        const newUnderArmJoin = UnderArmJoin(newCastOn);
+        const newSleeveMax = SleeveMax(newCastOn);
+        const newSleeveRows = SleeveRows(this.props.gauge);
+        const newSleeveLength = SleeveLength(this.props.size);
+        const newSleeveCastOn = SleeveCastOn(newCastOn);
+        const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
+        const newYoke = Yoke(newCastOn);
+        const newYokeDepth = YokeDepth(newYoke, this.props.gauge); 
         this.setState({
             ...this.state,
-            castOn: this.props.vars.castOn,
-            underArmJoin: this.props.vars.underArmJoin,
-            increaseTimes: this.props.vars.increaseTimes,
-            sleeveMax: this.props.vars.sleeveMax,
-            sleeveRows: this.props.vars.sleeveRows,
-            sleeveLength: this.props.vars.sleeveLength,
-            yoke: this.props.vars.yoke,
-            yokeDepth: this.props.vars.yokeDepth
+            castOn: newCastOn,
+            underArmJoin: newUnderArmJoin,
+            increaseTimes: newIncreaseTimes,
+            sleeveMax: newSleeveMax,
+            sleeveRows: newSleeveRows,
+            sleeveLength: newSleeveLength,
+            yoke: newYoke,
+            yokeDepth: newYokeDepth
         });
     }
 
@@ -157,37 +166,37 @@ class YokeScreen extends Component {
         },
         {
             sectionName: "Yoke",
-            text: "Place first and last "+(underArmJoin(this.props.size, this.props.gauge)/2)+" stitches of the body on a holder. Using largest circular need and starting at the back left sleeve, knit "+(sleeveMax(this.props.size, this.props.gauge) - underArmJoin(this.props.size, this.props.gauge))+" sleeve stitches, and place a marker. Knit the next "+((castOn(this.props.size, this.props.gauge) - 2*underArmJoin(this.props.size, this.props.gauge))/4)+" stitches on the front, and place next "+underArmJoin(this.props.size, this.props.gauge)+" stitches of body on holder. Knit "+(sleeveMax(this.props.size, this.props.gauge) - underArmJoin(this.props.size, this.props.gauge))+" stitches on the right sleeve and place marker. Knit the next "+((castOn(this.props.size,this.props.gauge) - (2*underArmJoin(this.props.size,this.props.gauge)))/4)+" stitches of back, place marker and join in the round "+yoke(this.props.size,this.props.gauge)+" stitches.",
+            text: "Place first and last "+(this.state.underArmJoin/2)+" stitches of the body on a holder. Using largest circular need and starting at the back left sleeve, knit "+(this.state.sleeveMax - this.state.underArmJoin)+" sleeve stitches, and place a marker. Knit the next "+((this.state.castOn - (2*this.state.underArmJoin))/4)+" stitches on the front, and place next "+this.state.underArmJoin+" stitches of body on holder. Knit "+(this.state.sleeveMax - this.state.underArmJoin)+" stitches on the right sleeve and place marker. Knit the next "+((this.state.castOn - (2*this.state.underArmJoin))/4)+" stitches of back, place marker and join in the round "+this.state.yoke+" stitches.",
             imgSrc: "",
             counter: true
         },
         {
             sectionName: "Yoke",
-            text: "Knit in the round until yoke is "+(yokeDepth(this.props.size,this.props.gauge)/2)+" inches, about ({yoke depth}*{vgauge}/2) rounds.",
+            text: "Knit in the round until yoke is "+(this.state.yokeDepth/2)+" inches, about ({yoke depth}*{vgauge}/2) rounds.",
             imgSrc: "",
             counter: true
         },
         {
             sectionName: "Yoke",
-            text: "Knit 1, knit 2 together, all the way around, "+(Math.round(yoke(this.props.size,this.props.gauge)*(2/3)))+" stitches remaining.",
+            text: "Knit 1, knit 2 together, all the way around, "+(Math.round(this.state.yoke*(2/3)))+" stitches remaining.",
             imgSrc: "",
             counter: true
         },
         {
             sectionName: "Yoke",
-            text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(yokeDepth(this.props.size,this.props.gauge)/4))+" inches.",
+            text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(this.state.yokeDepth/4))+" inches.",
             imgSrc: "",
             counter: true
         },
         {
             sectionName: "Yoke",
-            text: "Knit 1, knit 2 together, all the way around, "+(Math.round(yoke(this.props.size,this.props.gauge)*((2/3)^2)))+" stitches remaining.",
+            text: "Knit 1, knit 2 together, all the way around, "+(Math.round(this.state.yoke*((2/3)^2)))+" stitches remaining.",
             imgSrc: "",
             counter: true
         },
         {
             sectionName: "Yoke",
-            text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(yokeDepth(this.props.size,this.props.gauge)/4))+" inches.",
+            text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(this.state.yokeDepth/4))+" inches.",
             imgSrc: "",
             counter: false
         }
@@ -244,26 +253,16 @@ class YokeScreen extends Component {
     }
 }
 
-function MRound(number, multipleOf) {
-    let rounded = number;
-    while(rounded % multipleOf != 0) { if(rounded % multipleOf >= (multipleOf/2)) {rounded++;} else {rounded--;} }
-    return rounded;
-}
-function castOn(size, gauge) { return MRound(Math.round(size * gauge), 4); }
-function underArmJoin(size, gauge) { return MRound( Math.round(castOn(size, gauge) * 0.08), 2); }
-function sleeveCastOn(size, gauge) { return MRound(Math.round(castOn(size, gauge)/5), 4); }
-function sleeveMax(size, gauge) {
-    let sleeveMax = Math.round(castOn(size, gauge)* 0.333333);
-    if(sleeveMax % 2 != 0) {sleeveMax++;}
-    return sleeveMax;
-}
-function sleeveRows(gauge) { return MRound(((18-13.1)*Math.round(gauge/0.73)), 2); }
-function increaseTimes(size, gauge) { return Math.round((sleeveMax(size, gauge) - sleeveCastOn(size, gauge))/ 2); }
-function sleeveLength(size) { if(size <= 44) {return 18;} else if(size > 50) { return 19.75;} else { return 19; } }
-function yoke(size, gauge) {
-    return MRound( Math.round(castOn(size, gauge) - (2* underArmJoin(size, gauge))+(2*(sleeveMax(size, gauge) - underArmJoin(size, gauge)))), 2 );
-}
-function yokeDepth(size, gauge) { return Math.round((yoke(size, gauge) / gauge)/4); }
+function MRound(number, multipleOf) { let rounded = number; while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; } return rounded;}
+function CastOn(size, gauge) { return MRound(Math.round(size * gauge), 4);}
+function UnderArmJoin(castOn) { return MRound( Math.round(castOn * 0.08), 2);}
+function SleeveCastOn(castOn) { return MRound(Math.round(castOn/5), 4);}
+function SleeveMax(castOn) { let sleeveMax = Math.round(castOn * 0.333333); if(sleeveMax % 2 != 0) {sleeveMax++;} return sleeveMax;}
+function SleeveRows(gauge) { return MRound(((18-13.1)*Math.round(gauge/0.73)), 2);}
+function IncreaseTimes(sleeveMax, sleeveCastOn) { return Math.round((sleeveMax - sleeveCastOn)/ 2);}
+function SleeveLength(size) { if(size <= 44) {return 18;} else if(size > 50) { return 19.75;} else { return 19; }}
+function Yoke(castOn, underArmJoin, sleeveMax) { return MRound( Math.round(castOn - (2* underArmJoin)+(2*(sleeveMax - underArmJoin))), 2 );}
+function YokeDepth(yoke, gauge) { return Math.round((yoke / gauge)/4);}
 
 const styles = StyleSheet.create({
     container: {
@@ -328,12 +327,10 @@ const styles = StyleSheet.create({
         fontSize: 18
     }
 });
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         onAddSize: (newSize) => dispatch(addSize(newSize)),
-//         onAddGauge: (newGauge) => dispatch(addGauge(newGauge))
-//     };
-// };
-
-// export default connect(null, mapDispatchToProps)( BodyScreen);
-export default YokeScreen;
+const mapStateToProps = state => {
+    return {
+        size: state.size.size,
+        gauge: state.gauge.gauge
+    };
+};
+export default connect(mapStateToProps)( YokeScreen);

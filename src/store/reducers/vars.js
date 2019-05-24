@@ -1,5 +1,6 @@
 import { SET_VARS } from '../actions/actionTypes';
 const initialState = { size: 36, gauge: 4.5 };
+// console.log(initialState);
 let castOn, underArmJoin, sleeveCastOn, sleeveMax, sleeveRows, increaseTimes, sleeveLength, yoke, yokeDepth;
 function MRound(number, multipleOf) { let rounded = number; while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; } return rounded;}
 function CastOn(size, gauge) { return MRound(Math.round(size * gauge), 4);}
@@ -21,20 +22,32 @@ const reducer = (state = initialState, action) => {
     sleeveLength = SleeveLength(state.size);
     yoke = Yoke(castOn, underArmJoin, sleeveMax);
     yokeDepth = YokeDepth(yoke, state.gauge);
+    // console.log(castOn + "" + underArmJoin + ""+ yoke);
 
     switch (action.type) {
         case SET_VARS:
             return {
                 ...state,
-                castOn: castOn,
-                underArmJoin: underArmJoin,
-                sleeveCastOn: sleeveCastOn,
-                sleeveMax: sleeveMax,
-                sleeveRows: sleeveRows,
-                increaseTimes: increaseTimes,
-                sleeveLength: sleeveLength,
-                yoke: yoke,
-                yokeDepth: yokeDepth
+                vars: state.vars.concat({
+                    castOn: castOn,
+                    underArmJoin: underArmJoin,
+                    sleeveCastOn: sleeveCastOn,
+                    sleeveMax: sleeveMax,
+                    sleeveRows: sleeveRows,
+                    increaseTimes: increaseTimes,
+                    sleeveLength: sleeveLength,
+                    yoke: yoke,
+                    yokeDepth: yokeDepth
+                })
+                // castOn: castOn,
+                // underArmJoin: underArmJoin,
+                // sleeveCastOn: sleeveCastOn,
+                // sleeveMax: sleeveMax,
+                // sleeveRows: sleeveRows,
+                // increaseTimes: increaseTimes,
+                // sleeveLength: sleeveLength,
+                // yoke: yoke,
+                // yokeDepth: yokeDepth
             };
         default:
             return state;

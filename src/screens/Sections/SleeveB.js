@@ -25,14 +25,21 @@ class SleeveBScreen extends Component {
     };
     
     componentDidMount() {
+        const newCastOn = CastOn(this.props.size, this.props.gauge);
+        const newUnderArmJoin = UnderArmJoin(newCastOn);
+        const newSleeveMax = SleeveMax(newCastOn);
+        const newSleeveRows = SleeveRows(this.props.gauge);
+        const newSleeveLength = SleeveLength(this.props.size);
+        const newSleeveCastOn = SleeveCastOn(newCastOn);
+        const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
         this.setState({
             ...this.state,
-            castOn: this.props.vars.castOn,
-            underArmJoin: this.props.vars.underArmJoin,
-            increaseTimes: this.props.vars.increaseTimes,
-            sleeveMax: this.props.vars.sleeveMax,
-            sleeveRows: this.props.vars.sleeveRows,
-            sleeveLength: this.props.vars.sleeveLength
+            castOn: newCastOn,
+            underArmJoin: newUnderArmJoin,
+            increaseTimes: newIncreaseTimes,
+            sleeveMax: newSleeveMax,
+            sleeveRows: newSleeveRows,
+            sleeveLength: newSleeveLength
         });
     }
 
@@ -126,7 +133,7 @@ class SleeveBScreen extends Component {
     sleeve2Steps = [
         { //sleeve cast on or (body) cast on?
             sectionName: "Sleeve2",
-            text: "Using size 4 32\" circular needles, cast on "+castOn(this.props.size, this.props.gauge)+" stitches. Place a marker at the end, and join in the round.",
+            text: "Using size 4 32\" circular needles, cast on "+this.state.castOn+" stitches. Place a marker at the end, and join in the round.",
             imgSrc: "",
             counter: false
         },
@@ -174,19 +181,19 @@ class SleeveBScreen extends Component {
         },
         {
             sectionName: "Sleeve2",
-            text: "Repeat steps 7 and 8 "+increaseTimes(this.props.size,this.props.gauge)+" times, until you have "+sleeveMax(this.props.size, this.props.gauge)+" stitches",
+            text: "Repeat steps 7 and 8 "+this.state.increaseTimes+" times, until you have "+this.state.sleeveMax+" stitches",
             imgSrc: "",
             counter: false
         },
         {
             sectionName: "Sleeve2",
-            text: "Continue knitting in stockinette stitch for "+sleeveRows(this.props.gauge)+" rows, until your sleeve is "+sleeveLength(this.props.size)+" from cast on, or desired length. ",
+            text: "Continue knitting in stockinette stitch for "+this.state.sleeveRows+" rows, until your sleeve is "+this.state.sleeveLength+" from cast on, or desired length. ",
             imgSrc: "",
             counter: false
         },
         {
             sectionName: "Sleeve2",
-            text: "That's it! Now take the "+underArmJoin(this.props.size, this.props.gauge)+" stitches directly above the underarm increases and put them on threads or a stitch holder. Put remaining stitches on a separate holder.",
+            text: "That's it! Now take the "+this.state.underArmJoin+" stitches directly above the underarm increases and put them on threads or a stitch holder. Put remaining stitches on a separate holder.",
             imgSrc: "",
             counter: false
         }
@@ -244,26 +251,14 @@ class SleeveBScreen extends Component {
         );
     }
 }
-function MRound(number, multipleOf) {
-    let rounded = number;
-    while(rounded % multipleOf != 0) { if(rounded % multipleOf >= (multipleOf/2)) {rounded++;} else {rounded--;} }
-    return rounded;
-}
-function castOn(size, gauge) { return MRound(Math.round(size * gauge), 4); }
-function underArmJoin(size, gauge) { return MRound( Math.round(castOn(size, gauge) * 0.08), 2); }
-function sleeveCastOn(size, gauge) { return MRound(Math.round(castOn(size, gauge)/5), 4); }
-function sleeveMax(size, gauge) {
-    let sleeveMax = Math.round(castOn(size, gauge)* 0.333333);
-    if(sleeveMax % 2 != 0) {sleeveMax++;}
-    return sleeveMax;
-}
-function sleeveRows(gauge) { return MRound(((18-13.1)*Math.round(gauge/0.73)), 2); }
-function increaseTimes(size, gauge) { return Math.round((sleeveMax(size, gauge) - sleeveCastOn(size, gauge))/ 2); }
-function sleeveLength(size) { if(size <= 44) {return 18;} else if(size > 50) { return 19.75;} else { return 19; } }
-function yoke(size, gauge) {
-    return MRound( Math.round(castOn(size, gauge) - (2* underArmJoin(size, gauge))+(2*(sleeveMax(size, gauge) - underArmJoin(size, gauge)))), 2 );
-}
-function yokeDepth(size, gauge) { return Math.round((yoke(size, gauge) / gauge)/4); }
+function MRound(number, multipleOf) { let rounded = number; while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; } return rounded;}
+function CastOn(size, gauge) { return MRound(Math.round(size * gauge), 4);}
+function UnderArmJoin(castOn) { return MRound( Math.round(castOn * 0.08), 2);}
+function SleeveCastOn(castOn) { return MRound(Math.round(castOn/5), 4);}
+function SleeveMax(castOn) { let sleeveMax = Math.round(castOn * 0.333333); if(sleeveMax % 2 != 0) {sleeveMax++;} return sleeveMax;}
+function SleeveRows(gauge) { return MRound(((18-13.1)*Math.round(gauge/0.73)), 2);}
+function IncreaseTimes(sleeveMax, sleeveCastOn) { return Math.round((sleeveMax - sleeveCastOn)/ 2);}
+function SleeveLength(size) { if(size <= 44) {return 18;} else if(size > 50) { return 19.75;} else { return 19; }}
 
 const styles = StyleSheet.create({
     container: {

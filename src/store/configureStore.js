@@ -6,7 +6,7 @@ import varsReducer from './reducers/vars';
 const rootReducer = combineReducers({
     size: sizeReducer,
     gauge: gaugeReducer,
-    vars: varsReducer
+    // vars: varsReducer
 });
 let composeEnhancers = compose;
 if(__DEV__) {

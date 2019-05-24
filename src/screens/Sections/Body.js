@@ -29,10 +29,12 @@ class BodyScreen extends Component {
     // };
 
     componentDidMount() {
+        let newCastOn = CastOn(this.props.size, this.props.gauge);
+        let newUnderArmJoin = UnderArmJoin(newCastOn);
         this.setState({
             ...this.state,
-            castOn: this.props.vars.castOn,
-            underArmJoin: this.props.vars.underArmJoin
+            castOn: newCastOn,
+            underArmJoin: newUnderArmJoin
         });
     }
 
@@ -223,13 +225,10 @@ class BodyScreen extends Component {
         );
     }
 }
-// function MRound(number, multipleOf) {
-//     let rounded = number;
-//     while(rounded % multipleOf != 0) { if(rounded % multipleOf >= (multipleOf/2)) {rounded++;} else {rounded--;} }
-//     return rounded;
-// }
-// function calcCastOn(size, gauge) { return MRound(Math.round(size * gauge), 4); }
-// function calcUnderArmJoin(size, gauge) { return MRound( Math.round(castOn(size, gauge) * 0.08), 2); }
+
+function MRound(number, multipleOf) { let rounded = number; while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; console.log(rounded); } return rounded;}
+function CastOn(size, gauge) { return MRound(Math.round(size * gauge), 4);}
+function UnderArmJoin(castOn) { return MRound( Math.round(castOn * 0.08), 2);}
 
 const styles = StyleSheet.create({
     container: {
@@ -304,7 +303,7 @@ const mapStateToProps = state => {
     return {
         size: state.size.size,
         gauge: state.gauge.gauge,
-        vars: state.vars
+        // vars: state.vars
     };
 };
 export default connect(mapStateToProps)(BodyScreen);

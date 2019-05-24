@@ -12,7 +12,14 @@ import YokeScreen from './src/screens/Sections/Yoke';
 import SummaryScreen from './src/screens/Summary/Summary';
 
 import configureStore from './src/store/configureStore';
-const store = configureStore();
+// try {
+  const store = configureStore();
+//   console.log(store.getState());
+// } catch (error) {
+//   console.log(error);
+// }
+// const store = configureStore();
+// console.log(store.getState());
 
 //register screens by id
 Navigation.registerComponent("knitrino.AuthScreen", ()=> AuthScreen, store, Provider );
