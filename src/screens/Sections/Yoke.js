@@ -12,7 +12,7 @@ class YokeScreen extends Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-        state = {
+        this.state = {
             step: 0,
             // augment: 0,
             castOn: false,
@@ -27,77 +27,29 @@ class YokeScreen extends Component {
             notes: {}
         };
     }
-    // state = {
-    //     step: 0,
-    //     // augment: 0,
-    //     stitchNumber: 1,
-    //     notes: {}
-    // };
 
     componentDidMount() {
         const newCastOn = CastOn(this.props.size, this.props.gauge);
         const newUnderArmJoin = UnderArmJoin(newCastOn);
-        // const newSleeveMax = SleeveMax(newCastOn);
-        // const newSleeveRows = SleeveRows(this.props.gauge);
-        // const newSleeveLength = SleeveLength(this.props.size);
-        // const newSleeveCastOn = SleeveCastOn(newCastOn);
-        // const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
-        // const newYoke = Yoke(newCastOn);
-        // const newYokeDepth = YokeDepth(newYoke, this.props.gauge); 
+        const newSleeveMax = SleeveMax(newCastOn);
+        const newSleeveRows = SleeveRows(this.props.gauge);
+        const newSleeveLength = SleeveLength(this.props.size);
+        const newSleeveCastOn = SleeveCastOn(newCastOn);
+        const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
+        const newYoke = Yoke(newCastOn);
+        const newYokeDepth = YokeDepth(newYoke, this.props.gauge); 
         this.setState({
             ...this.state,
             castOn: newCastOn,
             underArmJoin: newUnderArmJoin,
-            // increaseTimes: newIncreaseTimes,
-            // sleeveMax: newSleeveMax,
-            // sleeveRows: newSleeveRows,
-            // sleeveLength: newSleeveLength,
-            // yoke: newYoke,
-            // yokeDepth: newYokeDepth
+            increaseTimes: newIncreaseTimes,
+            sleeveMax: newSleeveMax,
+            sleeveRows: newSleeveRows,
+            sleeveLength: newSleeveLength,
+            yoke: newYoke,
+            yokeDepth: newYokeDepth
         });
     }
-
-    // componentDidMount() {
-    //     this.setState({
-    //         ...this.state,
-    //         castOn: this.props.vars.castOn
-    //     }, ()=>{
-    //         this.setState({
-    //             ...this.state,
-    //             underArmJoin: this.props.vars.underArmJoin
-    //         }, ()=>{
-    //             this.setState({
-    //                 ...this.state,
-    //                 increaseTimes: this.props.vars.increaseTimes
-    //             }, ()=>{
-    //                 this.setState({
-    //                     ...this.state,
-    //                     sleeveMax: this.props.vars.sleeveMax
-    //                 }, ()=>{
-    //                     this.setState({
-    //                         ...this.state,
-    //                         sleeveRows: this.props.vars.sleeveRows
-    //                     }, ()=>{
-    //                         this.setState({
-    //                             ...this.state,
-    //                             sleeveLength: this.props.vars.sleeveLength
-    //                         }, ()=>{
-    //                             this.setState({
-    //                                 ...this.state,
-    //                                 yoke: this.props.vars.yoke
-    //                             }, ()=>{
-    //                                 this.setState({
-    //                                     ...this.state,
-    //                                     yokeDepth: this.props.vars.yokeDepth
-    //                                 });
-    //                             });
-    //                         });
-    //                     });
-    //                 });
-    //             });
-    //         });
-    //     });
-    // }
 
     onNavigatorEvent = event => {
         console.log(event);
@@ -157,7 +109,7 @@ class YokeScreen extends Component {
         );
     }
 
-    yokeSteps = [
+    yokeSteps =()=> { return [
         {
             sectionName: "Yoke",
             text: "Now the fun begins - uniting the sleeves with the body.",
@@ -200,7 +152,7 @@ class YokeScreen extends Component {
             imgSrc: "",
             counter: false
         }
-    ];
+    ];}
    
     render () {
         return (
@@ -208,8 +160,8 @@ class YokeScreen extends Component {
 
                 <View style={styles.stepContainer}>
                     <StepDetail
-                        sectionName={this.yokeSteps[this.state.step].sectionName}
-                        text={this.yokeSteps[this.state.step].text}
+                        sectionName={this.yokeSteps()[this.state.step].sectionName}
+                        text={this.yokeSteps()[this.state.step].text}
                         step={this.state.step}
                         oldNotes={this.state.notes[this.state.step]}
                         onNextStep={this.nextStepHandler}
@@ -253,7 +205,7 @@ class YokeScreen extends Component {
     }
 }
 
-function MRound(number, multipleOf) { let rounded = number; while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; } return rounded;}
+function MRound(number, multipleOf) { let rounded = Math.round(number); while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; } return rounded;}
 function CastOn(size, gauge) { return MRound(Math.round(size * gauge), 4);}
 function UnderArmJoin(castOn) { return MRound( Math.round(castOn * 0.08), 2);}
 function SleeveCastOn(castOn) { return MRound(Math.round(castOn/5), 4);}

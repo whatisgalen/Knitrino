@@ -9,42 +9,42 @@ class SummaryScreen extends Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+        this.state = {
+            section: "",
+            // step: 0,
+            castOn: false,
+            underArmJoin: false,
+            increaseTimes: false,
+            sleeveMax: false,
+            sleeveRows: false,
+            sleeveLength: false,
+            yoke: false,
+            yokeDepth: false,
+            stringKeys: []
+        };
     }
-    state = {
-        section: "",
-        // step: 0,
-        castOn: false,
-        underArmJoin: false,
-        increaseTimes: false,
-        sleeveMax: false,
-        sleeveRows: false,
-        sleeveLength: false,
-        yoke: false,
-        yokeDepth: false,
-        stringKeys: []
-    };
 
     componentDidMount() {
         const newCastOn = CastOn(this.props.size, this.props.gauge);
         const newUnderArmJoin = UnderArmJoin(newCastOn);
-        // const newSleeveMax = SleeveMax(newCastOn);
-        // const newSleeveRows = SleeveRows(this.props.gauge);
-        // const newSleeveLength = SleeveLength(this.props.size);
-        // const newSleeveCastOn = SleeveCastOn(newCastOn);
-        // const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
-        // const newYoke = Yoke(newCastOn);
-        // const newYokeDepth = YokeDepth(newYoke, this.props.gauge); 
-        this.setState({
-            ...this.state,
-            castOn: newCastOn,
-            underArmJoin: newUnderArmJoin,
-            // increaseTimes: newIncreaseTimes,
-            // sleeveMax: newSleeveMax,
-            // sleeveRows: newSleeveRows,
-            // sleeveLength: newSleeveLength,
-            // yoke: newYoke,
-            // yokeDepth: newYokeDepth
-        });
+        const newSleeveMax = SleeveMax(newCastOn);
+        const newSleeveRows = SleeveRows(this.props.gauge);
+        const newSleeveLength = SleeveLength(this.props.size);
+        const newSleeveCastOn = SleeveCastOn(newCastOn);
+        const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
+        const newYoke = Yoke(newCastOn);
+        const newYokeDepth = YokeDepth(newYoke, this.props.gauge); 
+        // this.setState({
+        //     ...this.state,
+        //     castOn: newCastOn,
+        //     underArmJoin: newUnderArmJoin,
+        //     increaseTimes: newIncreaseTimes,
+        //     sleeveMax: newSleeveMax,
+        //     sleeveRows: newSleeveRows,
+        //     sleeveLength: newSleeveLength,
+        //     yoke: newYoke,
+        //     yokeDepth: newYokeDepth
+        // });
     }
 
     Toggler = (newSection) => {
@@ -323,6 +323,7 @@ class SummaryScreen extends Component {
     render () {
         return (
             <View style={styles.container} >
+
                 <View style={styles.headerContainer}>
                     <TouchableHighlight 
                         onPress={()=>this.Toggler(sections[0])} 
@@ -334,16 +335,22 @@ class SummaryScreen extends Component {
                         onPress={()=>this.Toggler(sections[1])} 
                         underlayColor={'#7a96bc'}
                         style={styles.header}>
-                        <Text style={styles.headerBtnText}>Sleeves</Text>
+                        <Text style={styles.headerBtnText}>Sleeve 1</Text>
                     </TouchableHighlight>
                     <TouchableHighlight 
                         onPress={()=>this.Toggler(sections[2])} 
+                        underlayColor={'#7a96bc'}
+                        style={styles.header}>
+                        <Text style={styles.headerBtnText}>Sleeve 2</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight 
+                        onPress={()=>this.Toggler(sections[3])} 
                         underlayColor={'#7abca1'}
                         style={styles.header}>
                         <Text style={styles.headerBtnText}>Yoke</Text>
                     </TouchableHighlight>
                     <TouchableHighlight 
-                        onPress={()=>this.Toggler(sections[3])} 
+                        onPress={()=>this.Toggler(sections[4])} 
                         underlayColor={'#99c699'}
                         style={styles.header}>
                         <Text style={styles.headerBtnText}>Finishing</Text>
@@ -375,7 +382,7 @@ class SummaryScreen extends Component {
         );
     }
 }
-function MRound(number, multipleOf) { let rounded = number; while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; } return rounded;}
+function MRound(number, multipleOf) { let rounded = Math.round(number); while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; } return rounded;}
 function CastOn(size, gauge) { return MRound(Math.round(size * gauge), 4);}
 function UnderArmJoin(castOn) { return MRound( Math.round(castOn * 0.08), 2);}
 function SleeveCastOn(castOn) { return MRound(Math.round(castOn/5), 4);}
@@ -386,7 +393,7 @@ function SleeveLength(size) { if(size <= 44) {return 18;} else if(size > 50) { r
 function Yoke(castOn, underArmJoin, sleeveMax) { return MRound( Math.round(castOn - (2* underArmJoin)+(2*(sleeveMax - underArmJoin))), 2 );}
 function YokeDepth(yoke, gauge) { return Math.round((yoke / gauge)/4);}
 
-const sections = ["Body","Sleeves","Yoke","Finishing"];
+const sections = ["Body","Sleeve1","Sleeve2","Yoke","Finishing"];
 
 const styles = StyleSheet.create({
     container:{
@@ -432,9 +439,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         size: state.size.size,
-        gauge: state.gauge.gauge,
-        // vars: state.vars
+        gauge: state.gauge.gauge
     };
 };
-
 export default connect(mapStateToProps)(SummaryScreen);

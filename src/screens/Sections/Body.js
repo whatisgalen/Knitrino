@@ -10,7 +10,7 @@ class BodyScreen extends Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-        state = {
+        this.state = {
             step: 0,
             // augment: 0,
             stitchNumber: 1,
@@ -19,23 +19,18 @@ class BodyScreen extends Component {
             notes: {}
         };
     }
-    // state = {
-    //     step: 0,
-    //     // augment: 0,
-    //     stitchNumber: 1,
-    //     castOn: false,
-    //     underArmJoin: false,
-    //     notes: {}
-    // };
+
 
     componentDidMount() {
         let newCastOn = CastOn(this.props.size, this.props.gauge);
         let newUnderArmJoin = UnderArmJoin(newCastOn);
-        this.setState({
-            ...this.state,
-            castOn: newCastOn,
-            underArmJoin: newUnderArmJoin
-        });
+        if(this.state.castOn != newCastOn) {
+            this.setState({
+                ...this.state,
+                castOn: newCastOn,
+                underArmJoin: newUnderArmJoin
+            });
+        }
     }
 
     onNavigatorEvent = event => {
@@ -56,15 +51,15 @@ class BodyScreen extends Component {
         });
     }
     rowHandler = ()=> { return ((this.state.stitchNumber)); }
-    nextStepHandler = event => {
+    nextStepHandler = () => {
         let currentStep = this.state.step;
-        if(this.state.step < this.bodySteps.length-1) {
+        if(this.state.step < this.bodySteps().length-1) {
             this.setState({
                 ...this.state,
                 step: (currentStep+1)
             });
         } else {
-            // console.log(this.props.navigator);
+            console.log(this.props.navigator);
             this.props.navigator.push({
                 screen: 'knitrino.SleeveAScreen',
                 title: 'Sleeve A Steps',
@@ -197,7 +192,7 @@ class BodyScreen extends Component {
     }
 }
 
-function MRound(number, multipleOf) { let rounded = number; while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; console.log(rounded); } return rounded;}
+function MRound(number, multipleOf) { let rounded = Math.round(number); while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; } return rounded;}
 function CastOn(size, gauge) { return MRound(Math.round(size * gauge), 4);}
 function UnderArmJoin(castOn) { return MRound( Math.round(castOn * 0.08), 2);}
 

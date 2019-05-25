@@ -10,36 +10,36 @@ class SleeveBScreen extends Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+        this.state = {
+            step: 0,
+            // augment: 0,
+            castOn: false,
+            underArmJoin: false,
+            increaseTimes: false,
+            sleeveMax: false,
+            sleeveRows: false,
+            sleeveLength: false,
+            stitchNumber: 1,
+            notes: {}
+        };
     }
-    state = {
-        step: 0,
-        // augment: 0,
-        castOn: false,
-        underArmJoin: false,
-        increaseTimes: false,
-        sleeveMax: false,
-        sleeveRows: false,
-        sleeveLength: false,
-        stitchNumber: 1,
-        notes: {}
-    };
     
     componentDidMount() {
         const newCastOn = CastOn(this.props.size, this.props.gauge);
         const newUnderArmJoin = UnderArmJoin(newCastOn);
-        // const newSleeveMax = SleeveMax(newCastOn);
-        // const newSleeveRows = SleeveRows(this.props.gauge);
-        // const newSleeveLength = SleeveLength(this.props.size);
-        // const newSleeveCastOn = SleeveCastOn(newCastOn);
-        // const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
+        const newSleeveMax = SleeveMax(newCastOn);
+        const newSleeveRows = SleeveRows(this.props.gauge);
+        const newSleeveLength = SleeveLength(this.props.size);
+        const newSleeveCastOn = SleeveCastOn(newCastOn);
+        const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
         this.setState({
             ...this.state,
             castOn: newCastOn,
             underArmJoin: newUnderArmJoin,
-            // increaseTimes: newIncreaseTimes,
-            // sleeveMax: newSleeveMax,
-            // sleeveRows: newSleeveRows,
-            // sleeveLength: newSleeveLength
+            increaseTimes: newIncreaseTimes,
+            sleeveMax: newSleeveMax,
+            sleeveRows: newSleeveRows,
+            sleeveLength: newSleeveLength
         });
     }
 
@@ -63,7 +63,7 @@ class SleeveBScreen extends Component {
     rowHandler = ()=> { return ((this.state.stitchNumber)); }
     nextStepHandler = event => {
         let currentStep = this.state.step;
-        if(this.state.step < this.sleeve2Steps.length-1) {
+        if(this.state.step < this.sleeve2Steps().length-1) {
             this.setState({
                 ...this.state,
                 step: (currentStep+1)
@@ -98,7 +98,7 @@ class SleeveBScreen extends Component {
         }
     }
 
-    sleeve2Steps = [
+    sleeve2Steps =()=> { return [
         { //sleeve cast on or (body) cast on?
             sectionName: "Sleeve2",
             text: "Using size 4 32\" circular needles, cast on "+this.state.castOn+" stitches. Place a marker at the end, and join in the round.",
@@ -165,7 +165,7 @@ class SleeveBScreen extends Component {
             imgSrc: "",
             counter: false
         }
-    ];
+    ];}
    
     render () {
         return (
@@ -174,8 +174,8 @@ class SleeveBScreen extends Component {
                 <View style={styles.stepContainer}>
                     <StepDetail 
                         // something={this.props.size}
-                        sectionName={this.sleeve2Steps[this.state.step].sectionName}
-                        text={this.sleeve2Steps[this.state.step].text}
+                        sectionName={this.sleeve2Steps()[this.state.step].sectionName}
+                        text={this.sleeve2Steps()[this.state.step].text}
                         step={this.state.step}
                         oldNotes={this.state.notes[this.state.step]}
                         onNextStep={this.nextStepHandler}
@@ -219,7 +219,7 @@ class SleeveBScreen extends Component {
         );
     }
 }
-function MRound(number, multipleOf) { let rounded = number; while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; } return rounded;}
+function MRound(number, multipleOf) { let rounded = Math.round(number); while(rounded % multipleOf != 0) { rounded % multipleOf >= (multipleOf/2) ? rounded++ : rounded--; } return rounded;}
 function CastOn(size, gauge) { return MRound(Math.round(size * gauge), 4);}
 function UnderArmJoin(castOn) { return MRound( Math.round(castOn * 0.08), 2);}
 function SleeveCastOn(castOn) { return MRound(Math.round(castOn/5), 4);}
