@@ -22,8 +22,8 @@ class BodyScreen extends Component {
 
 
     componentDidMount() {
-        let newCastOn = CastOn(this.props.size, this.props.gauge);
-        let newUnderArmJoin = UnderArmJoin(newCastOn);
+        const newCastOn = CastOn(this.props.size, this.props.gauge);
+        const newUnderArmJoin = UnderArmJoin(newCastOn);
         if(this.state.castOn != newCastOn) {
             this.setState({
                 ...this.state,
@@ -52,7 +52,7 @@ class BodyScreen extends Component {
     }
     rowHandler = ()=> { return ((this.state.stitchNumber)); }
     nextStepHandler = () => {
-        let currentStep = this.state.step;
+        const currentStep = this.state.step;
         if(this.state.step < this.bodySteps().length-1) {
             this.setState({
                 ...this.state,
@@ -69,12 +69,17 @@ class BodyScreen extends Component {
         }
     }
     submitNotesHandler = (newNotes) => {
-        alert("saved: "+ newNotes);
         const currentStep = this.state.step;
-        this.state.notes[currentStep] = newNotes;
+        let stateNotes = {...this.state.notes};
+        stateNotes[currentStep] = newNotes;
+        this.setState({
+            ...this.state,
+            notes: stateNotes
+        });
+        alert("saved: "+ newNotes);
     }
     incrementRow = event => {
-        let currentStitchNumber = this.state.stitchNumber;
+        const currentStitchNumber = this.state.stitchNumber;
         const newStitchNumber = currentStitchNumber+1;
         this.setState({
             stitchNumber: newStitchNumber

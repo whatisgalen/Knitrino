@@ -37,15 +37,15 @@ class SleeveAScreen extends Component {
         //stops here for some reason
 
         const newSleeveRows = SleeveRows(this.props.gauge); //take a look?
-        console.log("newSleeveRows: done");
+        // console.log("newSleeveRows: done");
         
         const newSleeveLength = SleeveLength(this.props.size);
-        console.log("newSleeveLength: done");
+        // console.log("newSleeveLength: done");
         const newSleeveCastOn = SleeveCastOn(newCastOn);
-        console.log("newSleeveCastOn: done");
+        // console.log("newSleeveCastOn: done");
         const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
-        console.log("newIncreaseTimes: done");
-        console.log("now setting state...");
+        // console.log("newIncreaseTimes: done");
+        // console.log("now setting state...");
         this.setState({
             ...this.state,
             castOn: newCastOn,
@@ -58,7 +58,7 @@ class SleeveAScreen extends Component {
     }
 
     onNavigatorEvent = event => {
-        console.log(event);
+        console.log("in SleeveA",event,this.state);
         if(event.id === "bottomTabReselected") {
             this.props.navigator.popToRoot({
                 animated: true,
@@ -76,7 +76,7 @@ class SleeveAScreen extends Component {
     }
     rowHandler = ()=> { return ((this.state.stitchNumber)); }
     nextStepHandler = event => {
-        let currentStep = this.state.step;
+        const currentStep = this.state.step;
         if(this.state.step < this.sleeve1Steps().length-1) {
             this.setState({
                 ...this.state,
@@ -93,12 +93,17 @@ class SleeveAScreen extends Component {
         }
     }
     submitNotesHandler = (newNotes) => {
-        alert("saved: "+ newNotes);
         const currentStep = this.state.step;
-        this.state.notes[currentStep] = newNotes;
+        let stateNotes = {...this.state.notes};
+        stateNotes[currentStep] = newNotes;
+        this.setState({
+            ...this.state,
+            notes: stateNotes
+        });
+        alert("saved: "+ newNotes);
     }
     incrementRow = event => {
-        let currentStitchNumber = this.state.stitchNumber;
+        const currentStitchNumber = this.state.stitchNumber;
         const newStitchNumber = currentStitchNumber+1;
         this.setState({
             stitchNumber: newStitchNumber
@@ -112,81 +117,82 @@ class SleeveAScreen extends Component {
         }
     }
 
-    sleeve1Steps =()=> { return [
-        {
-            sectionName: "Sleeve1",
-            text: "Using 32\" circular needles, cast on "+this.state.castOn+" stitches. Place a marker at the end, and join in the round.",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "With yarn in front, slip 1 stitch as if to purl, then knit 1 stitch. Repeat to end.",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "Purl 1, then with yarn in back, slip 1 as if to purl. Repeat to end.",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "*Purl 1, then slip 1 stitch onto cable needle and hold in front. Purl 1, then knit 1 from the cable needle. Knit 1. Repeat from * until 2 stitches remain. Purl 2.",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "Change to {needle size 2} {needle type2}. Purl 2, knit 2 until ribbing measures 2\" from cast on. ",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "Change to {needle size 3} {needle type3}. Knit 14 rounds in stockinette stitch.",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "Now increase 2 stitches: Knit 1, make 1 left, knit to last stitch, make 1 right, knit one. ",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "Knit 4 rounds in stockinette.",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "Repeat steps 7 and 8 "+this.state.increaseTimes+" times, until you have "+this.state.sleeveMax+" stitches",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "Continue knitting in stockinette stitch for "+this.state.sleeveRows+" rows, until your sleeve is "+this.state.sleeveLength+" from cast on, or desired length. ",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "That's it! Now take the "+this.state.underArmJoin+" stitches directly above the underarm increases and put them on threads or a stitch holder. Put remaining stitches on a separate holder.",
-            imgSrc: "",
-            counter: false
-        },
-        {
-            sectionName: "Sleeve1",
-            text: "Just one more sleeve to go!",
-            imgSrc: "",
-            counter: false
-        }
-    ];
-}
+    sleeve1Steps = ()=> { 
+        return [
+            {
+                sectionName: "Sleeve1",
+                text: "Using 32\" circular needles, cast on "+this.state.castOn+" stitches. Place a marker at the end, and join in the round.",
+                imgSrc: "",
+                counter: false
+            },
+            {
+                sectionName: "Sleeve1",
+                text: "With yarn in front, slip 1 stitch as if to purl, then knit 1 stitch. Repeat to end.",
+                imgSrc: "",
+                counter: false
+            },
+            // {
+            //     sectionName: "Sleeve1",
+            //     text: "Purl 1, then with yarn in back, slip 1 as if to purl. Repeat to end.",
+            //     imgSrc: "",
+            //     counter: false
+            // },
+            // {
+            //     sectionName: "Sleeve1",
+            //     text: "*Purl 1, then slip 1 stitch onto cable needle and hold in front. Purl 1, then knit 1 from the cable needle. Knit 1. Repeat from * until 2 stitches remain. Purl 2.",
+            //     imgSrc: "",
+            //     counter: false
+            // },
+            // {
+            //     sectionName: "Sleeve1",
+            //     text: "Change to {needle size 2} {needle type2}. Purl 2, knit 2 until ribbing measures 2\" from cast on. ",
+            //     imgSrc: "",
+            //     counter: false
+            // },
+            // {
+            //     sectionName: "Sleeve1",
+            //     text: "Change to {needle size 3} {needle type3}. Knit 14 rounds in stockinette stitch.",
+            //     imgSrc: "",
+            //     counter: false
+            // },
+            // {
+            //     sectionName: "Sleeve1",
+            //     text: "Now increase 2 stitches: Knit 1, make 1 left, knit to last stitch, make 1 right, knit one. ",
+            //     imgSrc: "",
+            //     counter: false
+            // },
+            // {
+            //     sectionName: "Sleeve1",
+            //     text: "Knit 4 rounds in stockinette.",
+            //     imgSrc: "",
+            //     counter: false
+            // },
+            // {
+            //     sectionName: "Sleeve1",
+            //     text: "Repeat steps 7 and 8 "+this.state.increaseTimes+" times, until you have "+this.state.sleeveMax+" stitches",
+            //     imgSrc: "",
+            //     counter: false
+            // },
+            // {
+            //     sectionName: "Sleeve1",
+            //     text: "Continue knitting in stockinette stitch for "+this.state.sleeveRows+" rows, until your sleeve is "+this.state.sleeveLength+" from cast on, or desired length. ",
+            //     imgSrc: "",
+            //     counter: false
+            // },
+            // {
+            //     sectionName: "Sleeve1",
+            //     text: "That's it! Now take the "+this.state.underArmJoin+" stitches directly above the underarm increases and put them on threads or a stitch holder. Put remaining stitches on a separate holder.",
+            //     imgSrc: "",
+            //     counter: false
+            // },
+            // {
+            //     sectionName: "Sleeve1",
+            //     text: "Just one more sleeve to go!",
+            //     imgSrc: "",
+            //     counter: false
+            // }
+        ];
+    }
    
     render () {
         return (

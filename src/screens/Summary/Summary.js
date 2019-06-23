@@ -45,7 +45,7 @@ class SummaryScreen extends Component {
     //         yoke: newYoke,
     //         yokeDepth: newYokeDepth
     //     });
-    }
+    // }
 
     Toggler = (newSection) => {
         // console.log("param: "+newSection);
