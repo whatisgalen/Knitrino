@@ -24,7 +24,11 @@ class DimensionsInput extends Component {
     };
     dimensionsSubmitHandler =()=>{
         this.props.onDimensionsAdded(this.state.size,this.state.gauge);
-        alert("Dimensions\nsize: "+ this.state.size+"\ngauge: "+this.state.gauge);
+        if(!(this.state.size >= 1) || !(this.state.gauge >= 0.1)) {
+            alert("Default Dimensions entered:\nsize: 32\ngauge: 4.5");
+        } else {
+            alert("Dimensions Entered:\nsize: "+ this.state.size+"\ngauge: "+this.state.gauge);
+        } 
     };
 
     render() {
