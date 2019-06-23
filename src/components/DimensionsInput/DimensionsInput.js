@@ -2,18 +2,15 @@ import React, { Component } from 'react';
 import {StyleSheet, View, TextInput, Button, Text} from 'react-native';
 
 class DimensionsInput extends Component {
-
     state = {
-        // placeName: '',
         size: '',
         gauge: ''
     };
-    
     sizeChangedHandler = (val)=> {
         console.log(val);
         let newSize = (Number.parseInt(val));
         this.setState({
-            // ...state,
+            ...this.state,
             size: newSize
         });
     };
@@ -21,16 +18,13 @@ class DimensionsInput extends Component {
         console.log(val);
         let newGauge = (Number.parseFloat(val));
         this.setState({
-            // ...state,
+            ...this.state,
             gauge: newGauge
         });
     };
-
     dimensionsSubmitHandler =()=>{
         this.props.onDimensionsAdded(this.state.size,this.state.gauge);
         alert("Dimensions\nsize: "+ this.state.size+"\ngauge: "+this.state.gauge);
-        // this.props.onSizeAdded(this.state.size);
-        // this.props.onGaugeAdded(this.state.gauge);
     };
 
     render() {
@@ -62,9 +56,7 @@ class DimensionsInput extends Component {
         );
     }
 }
-
 const text = ["What chest size (in inches) do you want your garment to be?", "(Before you begin, you'll need to do a gauge swatch. If you want to do that later, just use the default below.) What's your gauge in stitches/inch?"];
-
 const styles = StyleSheet.create({
     inputContainer: {
         width: '100%',
@@ -87,6 +79,4 @@ const styles = StyleSheet.create({
         width: '50%'
       }
 });
-
 export default DimensionsInput;
-
