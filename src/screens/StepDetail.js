@@ -28,26 +28,57 @@ class StepDetail extends Component {
 
     submitNextStep =(event)=>{
         const currentStep = this.state.step;
+        if(this.props.oldNotes == "") {
+            this.setState({
+                ...this.state,
+                step: currentStep+1
+            },()=>{ this.resetNotes(event); });
+        } else {
+            this.setState({
+                ...this.state,
+                step: currentStep+1,
+                notes: this.props.oldNotes
+            });
+        }
+    };
+
+    submitPrevStep =(event)=>{
+        const currentStep = this.state.step;
         this.setState({
-            ...this.state,step: currentStep+1
-        },()=>{ this.resetNotes(event); });
+            ...this.state,
+            step: currentStep-1,
+            notes: this.props.oldNotes
+        });
     };
 
     resetNotes = (event) => {
         this.setState({
-            ...this.state,notes: ""
+            ...this.state,
+            notes: ""
         },()=>{ this.props.onNextStep(event); });
     }
 
     closeNotesHandler = (event) => {
         this.props.saveNotes(this.state.notes);
-        this.setState({ ...this.state,modalVisible: false });
+        this.setState({ 
+            ...this.state,
+            modalVisible: false
+         });
         // alert('Modal has been closed.');
-    };
+    }; 
 
     render() {
         return (
             <View style={styles.bodyContainer}>
+
+                <View style={styles.arrowContainer}>
+                    <TouchableOpacity onPress={this.submitPrevStep}>
+                        <View style={styles.nextArrow}>
+                            <Icon size={35} name="md-arrow-back" color="black" />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
                 <Modal
                     animationType="slide" 
                     onRequestClose={this.props.onModalClosed}
@@ -89,7 +120,7 @@ class StepDetail extends Component {
                 <View style={styles.arrowContainer}>
                     <TouchableOpacity onPress={this.submitNextStep}>
                         <View style={styles.nextArrow}>
-                            <Icon size={70} name="md-arrow-forward" color="black" />
+                            <Icon size={35} name="md-arrow-forward" color="black" />
                         </View>
                     </TouchableOpacity>
                 </View>
