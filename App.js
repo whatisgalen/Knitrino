@@ -14,8 +14,6 @@ import SummaryScreen from './src/screens/Summary/Summary';
 import configureStore from './src/store/configureStore';
 const store = configureStore();
 
-// console.log(store.getState());
-
 //register screens by id
 Navigation.registerComponent("knitrino.AuthScreen", ()=> AuthScreen, store, Provider );
 Navigation.registerComponent("knitrino.UserInputScreen", ()=> UserInputScreen, store, Provider);

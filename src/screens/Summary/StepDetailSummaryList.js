@@ -6,7 +6,6 @@ class StepDetailSummaryList extends Component {
     genStepCards = () => {
         let stepCards = [];
         let stepStr = "";
-        console.log("in genStepCards");
         for(let i=0; i < this.props.stepList.length; i++) {
             stepStr = ""+i+" - "+this.props.stepList[i].text;
             if(stepStr.length > 40) {

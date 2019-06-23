@@ -34,7 +34,6 @@ class BodyScreen extends Component {
     }
 
     onNavigatorEvent = event => {
-        console.log(event);
         if(event.id === "bottomTabReselected") {
             this.props.navigator.popToRoot({
                 animated: true,
@@ -59,7 +58,6 @@ class BodyScreen extends Component {
                 step: (currentStep+1)
             });
         } else {
-            console.log(this.props.navigator);
             this.props.navigator.push({
                 screen: 'knitrino.SleeveAScreen',
                 title: 'Sleeve A Steps',
@@ -85,6 +83,7 @@ class BodyScreen extends Component {
         const currentStitchNumber = this.state.stitchNumber;
         const newStitchNumber = currentStitchNumber+1;
         this.setState({
+            ...this.state,
             stitchNumber: newStitchNumber
         });
     }
@@ -92,7 +91,10 @@ class BodyScreen extends Component {
         const currentStitchNumber = this.state.stitchNumber;
         const newStitchNumber = currentStitchNumber-1;
         if(currentStitchNumber > 1) {
-            this.setState({ stitchNumber: newStitchNumber });
+            this.setState({ 
+                ...this.state,
+                stitchNumber: newStitchNumber 
+            });
         }
     }
 
@@ -153,7 +155,6 @@ class BodyScreen extends Component {
 
                 <View style={styles.stepContainer}>
                     <StepDetail 
-                        // something={this.props.size}
                         sectionName={this.bodySteps()[this.state.step].sectionName}
                         text={this.bodySteps()[this.state.step].text}
                         step={this.state.step}

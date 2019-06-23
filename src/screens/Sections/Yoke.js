@@ -29,7 +29,6 @@ class YokeScreen extends Component {
     }
 
     componentDidMount() {
-        // console.log("in componentDidMount",this.state, this.props);
         const newCastOn = CastOn(this.props.size, this.props.gauge);
         const newUnderArmJoin = UnderArmJoin(newCastOn);
         const newSleeveMax = SleeveMax(newCastOn);
@@ -53,7 +52,6 @@ class YokeScreen extends Component {
     }
 
     onNavigatorEvent = event => {
-        console.log("in Yoke",event, this.state);
         if(event.id === "bottomTabReselected") {
             this.props.navigator.popToRoot({
                 animated: true,
@@ -97,6 +95,7 @@ class YokeScreen extends Component {
         const currentStitchNumber = this.state.stitchNumber;
         const newStitchNumber = currentStitchNumber+1;
         this.setState({
+            ...this.state,
             stitchNumber: newStitchNumber
         });
     }
@@ -106,6 +105,7 @@ class YokeScreen extends Component {
         const newStitchNumber = currentStitchNumber-1;
         if(currentStitchNumber > 1) {
             this.setState({
+                ...this.state,
                 stitchNumber: newStitchNumber
             });
         }
