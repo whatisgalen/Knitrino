@@ -3,7 +3,6 @@ import {View, Text, Button, StyleSheet, TouchableOpacity, FlatList, TouchableHig
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import StepListCard from '../../components/StepListCard';
-// import startMainTabs from '../MainTabs/startMainTabs';
 
 class SummaryScreen extends Component {
     constructor(props) {
@@ -24,33 +23,33 @@ class SummaryScreen extends Component {
         };
     }
 
-    // componentDidMount() {
-    //     const newCastOn = CastOn(this.props.size, this.props.gauge);
-    //     const newUnderArmJoin = UnderArmJoin(newCastOn);
-    //     const newSleeveMax = SleeveMax(newCastOn);
-    //     const newSleeveRows = SleeveRows(this.props.gauge);
-    //     const newSleeveLength = SleeveLength(this.props.size);
-    //     const newSleeveCastOn = SleeveCastOn(newCastOn);
-    //     const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
-    //     const newYoke = Yoke(newCastOn);
-    //     const newYokeDepth = YokeDepth(newYoke, this.props.gauge); 
-    //     this.setState({
-    //         ...this.state,
-    //         castOn: newCastOn,
-    //         underArmJoin: newUnderArmJoin,
-    //         increaseTimes: newIncreaseTimes,
-    //         sleeveMax: newSleeveMax,
-    //         sleeveRows: newSleeveRows,
-    //         sleeveLength: newSleeveLength,
-    //         yoke: newYoke,
-    //         yokeDepth: newYokeDepth
-    //     });
-    // }
+    componentDidMount() {
+        const newCastOn = CastOn(this.props.size, this.props.gauge);
+        const newUnderArmJoin = UnderArmJoin(newCastOn);
+        const newSleeveMax = SleeveMax(newCastOn);
+        const newSleeveRows = SleeveRows(this.props.gauge);
+        const newSleeveLength = SleeveLength(this.props.size);
+        const newSleeveCastOn = SleeveCastOn(newCastOn);
+        const newIncreaseTimes = IncreaseTimes(newSleeveMax, newSleeveCastOn);
+        const newYoke = Yoke(newCastOn,newUnderArmJoin, newSleeveMax);
+        const newYokeDepth = YokeDepth(newYoke, this.props.gauge); 
+        this.setState({
+            ...this.state,
+            castOn: newCastOn,
+            underArmJoin: newUnderArmJoin,
+            increaseTimes: newIncreaseTimes,
+            sleeveMax: newSleeveMax,
+            sleeveRows: newSleeveRows,
+            sleeveLength: newSleeveLength,
+            yoke: newYoke,
+            yokeDepth: newYokeDepth
+        });
+    }
 
     Toggler = (newSection) => {
-        // console.log("param: "+newSection);
         if(this.state.section !== newSection) {
             this.setState({
+                ...this.state,
                 section: (newSection)
             }, () => {this.genStepCards();});
         }
@@ -61,23 +60,24 @@ class SummaryScreen extends Component {
         let stepStr = "";
         let j = 1;
         let theKey;
-        for(let i=0; i < this.steps.length; i++) {
-            if(this.steps[i].sectionName == this.state.section) {
+        for(let i=0; i < this.steps().length; i++) {
+            if(this.steps()[i].sectionName == this.state.section) {
                 // console.log(steps[i].text);
-                stepStr = ""+(j++)+" - "+this.steps[i].text;
+                stepStr = ""+(j++)+" - "+this.steps()[i].text;
                 if(stepStr.length > 50) {
                     stepStr = stepStr.substring(0,50)+"...";
                 }
-                theKey = ""+i+""+j+""+this.steps[i].text.length+"";
+                theKey = ""+i+""+j+""+this.steps()[i].text.length+"";
                 stepCards.push({
                     key: theKey, 
                     value: stepStr,
-                    full: this.steps[i].text,
+                    full: this.steps()[i].text,
                     altKey: theKey
                 });
             }
         }
         this.setState({
+            ...this.state,
             stringKeys: stepCards
         });
     }
@@ -89,7 +89,7 @@ class SummaryScreen extends Component {
         });
     }
 
-    steps = [
+    steps = () => { return [
         {
             sectionName: "Body",
             text: "Using 32\" circular needles one size smaller than you swatched with,  "+this.state.castOn+" stitches. Place a marker at the end, and join in the round.",
@@ -318,43 +318,48 @@ class SummaryScreen extends Component {
             imgSrc: "",
             counter: false
         }
-    ];
+    ];}
 
     render () {
         return (
             <View style={styles.container} >
 
                 <View style={styles.headerContainer}>
-                    <TouchableHighlight 
+                    <TouchableOpacity 
                         onPress={()=>this.Toggler(sections[0])} 
-                        underlayColor={'#7ab7bc'}
+                        // underlayColor={'#6F2DBD'}
+                        // activeOpacity={(1)}
                         style={styles.header}>
-                        <Text style={styles.headerBtnText}>Body</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight 
+                        <View><Text style={styles.headerBtnText}>Body</Text></View>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
                         onPress={()=>this.Toggler(sections[1])} 
-                        underlayColor={'#7a96bc'}
+                        // underlayColor={'#A663CC'}
+                        // activeOpacity={(1)}
                         style={styles.header}>
-                        <Text style={styles.headerBtnText}>Sleeve 1</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight 
+                        <View><Text style={styles.headerBtnText}>Sleeve 1</Text></View>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
                         onPress={()=>this.Toggler(sections[2])} 
-                        underlayColor={'#7a96bc'}
+                        // underlayColor={'#B298DC'}
+                        // activeOpacity={(1)}
                         style={styles.header}>
-                        <Text style={styles.headerBtnText}>Sleeve 2</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight 
+                        <View><Text style={styles.headerBtnText}>Sleeve 2</Text></View>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
                         onPress={()=>this.Toggler(sections[3])} 
-                        underlayColor={'#7abca1'}
+                        // underlayColor={'#B8D0EB'}
+                        // activeOpacity={(1)}
                         style={styles.header}>
-                        <Text style={styles.headerBtnText}>Yoke</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight 
+                        <View><Text style={styles.headerBtnText}>Yoke</Text></View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
                         onPress={()=>this.Toggler(sections[4])} 
-                        underlayColor={'#99c699'}
+                        // underlayColor={'#B9FAF8'}
+                        // activeOpacity={(1)}
                         style={styles.header}>
-                        <Text style={styles.headerBtnText}>Finishing</Text>
-                    </TouchableHighlight>
+                        <View><Text style={styles.headerBtnText}>Finishing</Text></View>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.listContainer}>
                     <FlatList 

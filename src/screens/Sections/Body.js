@@ -70,13 +70,16 @@ class BodyScreen extends Component {
     }
     submitNotesHandler = (newNotes) => {
         const currentStep = this.state.step;
-        let stateNotes = {...this.state.notes};
-        stateNotes[currentStep] = newNotes;
-        this.setState({
-            ...this.state,
-            notes: stateNotes
-        });
-        alert("saved: "+ newNotes);
+        let stateNotes;
+        if(newNotes !== this.state.notes[currentStep]) {
+            stateNotes = {...this.state.notes};
+            stateNotes[currentStep] = newNotes;
+            this.setState({
+                ...this.state,
+                notes: stateNotes
+            });
+            alert("saved: "+ newNotes);
+        } 
     }
     incrementRow = event => {
         const currentStitchNumber = this.state.stitchNumber;

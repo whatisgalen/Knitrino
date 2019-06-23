@@ -23,8 +23,7 @@ Navigation.registerComponent("knitrino.BodyScreen", ()=> BodyScreen, store, Prov
 Navigation.registerComponent("knitrino.SleeveAScreen", ()=> SleeveAScreen, store, Provider);
 Navigation.registerComponent("knitrino.SleeveBScreen", ()=> SleeveBScreen, store, Provider);
 Navigation.registerComponent("knitrino.YokeScreen", ()=> YokeScreen, store, Provider);
-// Navigation.registerComponent("knitrino.StepDetailScreen", ()=> StepDetailScreen);
-Navigation.registerComponent("knitrino.SummaryScreen", ()=> SummaryScreen);
+Navigation.registerComponent("knitrino.SummaryScreen", ()=> SummaryScreen, store, Provider);
 
 // Navigation.registerComponent("knitrino.SideDrawerScreen", ()=> SideDrawer);
 

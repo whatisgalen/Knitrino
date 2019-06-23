@@ -19,29 +19,29 @@ class StepDetail extends Component {
 
 
     notesBtnHandler =()=> {
-        this.setState({ modalVisible: true });
+        this.setState({ ...this.state,modalVisible: true });
     };
 
     updateNotes =(value)=> {
-        this.setState({ notes: value });
+        this.setState({ ...this.state,notes: value });
     }
 
     submitNextStep =(event)=>{
         const currentStep = this.state.step;
         this.setState({
-            step: currentStep+1
+            ...this.state,step: currentStep+1
         },()=>{ this.resetNotes(event); });
     };
 
     resetNotes = (event) => {
         this.setState({
-            notes: ""
+            ...this.state,notes: ""
         },()=>{ this.props.onNextStep(event); });
     }
 
     closeNotesHandler = (event) => {
         this.props.saveNotes(this.state.notes);
-        this.setState({ modalVisible: false });
+        this.setState({ ...this.state,modalVisible: false });
         // alert('Modal has been closed.');
     };
 

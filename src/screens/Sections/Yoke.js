@@ -61,16 +61,6 @@ class YokeScreen extends Component {
             });
         }
     }
-
-    nextStepHandler = event => {
-        const currentStep = this.state.step;
-        if(this.state.step < this.yokeSteps.length-1) {
-            this.setState({
-                step: (currentStep+1)
-            });
-        }
-    }
-
     toggleSummary = () => {
         this.props.navigator.push({
             screen: 'knitrino.SummaryScreen',
@@ -79,16 +69,28 @@ class YokeScreen extends Component {
             animationType: 'slide-horizontal'
         });
     }
-
+    rowHandler = ()=> { return ((this.state.stitchNumber)); }
+    nextStepHandler = event => {
+        const currentStep = this.state.step;
+        if(this.state.step < this.yokeSteps().length-1) {
+            this.setState({
+                ...this.state,
+                step: (currentStep+1)
+            });
+        }
+    }
     submitNotesHandler = (newNotes) => {
         const currentStep = this.state.step;
-        let stateNotes = {...this.state.notes};
-        stateNotes[currentStep] = newNotes;
-        this.setState({
-            ...this.state,
-            notes: stateNotes
-        });
-        alert("saved: "+ newNotes);
+        let stateNotes;
+        if(newNotes !== this.state.notes[currentStep]) {
+            stateNotes = {...this.state.notes};
+            stateNotes[currentStep] = newNotes;
+            this.setState({
+                ...this.state,
+                notes: stateNotes
+            });
+            alert("saved: "+ newNotes);
+        }
     }
 
     incrementRow = event => {
@@ -109,12 +111,6 @@ class YokeScreen extends Component {
         }
     }
 
-    rowHandler = ()=> {
-        return (
-            (this.state.stitchNumber)
-        );
-    }
-
     yokeSteps = ()=> { return [
         {
             sectionName: "Yoke",
@@ -122,42 +118,48 @@ class YokeScreen extends Component {
             imgSrc: "",
             counter: false 
         },
-        // {
-        //     sectionName: "Yoke",
-        //     text: "Place first and last "+(this.state.underArmJoin/2)+" stitches of the body on a holder. Using largest circular need and starting at the back left sleeve, knit "+(this.state.sleeveMax - this.state.underArmJoin)+" sleeve stitches, and place a marker. Knit the next "+((this.state.castOn - (2*this.state.underArmJoin))/4)+" stitches on the front, and place next "+this.state.underArmJoin+" stitches of body on holder. Knit "+(this.state.sleeveMax - this.state.underArmJoin)+" stitches on the right sleeve and place marker. Knit the next "+((this.state.castOn - (2*this.state.underArmJoin))/4)+" stitches of back, place marker and join in the round "+this.state.yoke+" stitches.",
-        //     imgSrc: "",
-        //     counter: true
-        // },
-        // {
-        //     sectionName: "Yoke",
-        //     text: "Knit in the round until yoke is "+(this.state.yokeDepth/2)+" inches, about ({yoke depth}*{vgauge}/2) rounds.",
-        //     imgSrc: "",
-        //     counter: true
-        // },
-        // {
-        //     sectionName: "Yoke",
-        //     text: "Knit 1, knit 2 together, all the way around, "+(Math.round(this.state.yoke*(2/3)))+" stitches remaining.",
-        //     imgSrc: "",
-        //     counter: true
-        // },
-        // {
-        //     sectionName: "Yoke",
-        //     text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(this.state.yokeDepth/4))+" inches.",
-        //     imgSrc: "",
-        //     counter: true
-        // },
-        // {
-        //     sectionName: "Yoke",
-        //     text: "Knit 1, knit 2 together, all the way around, "+(Math.round(this.state.yoke*((2/3)^2)))+" stitches remaining.",
-        //     imgSrc: "",
-        //     counter: true
-        // },
-        // {
-        //     sectionName: "Yoke",
-        //     text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(this.state.yokeDepth/4))+" inches.",
-        //     imgSrc: "",
-        //     counter: false
-        // }
+        {
+            sectionName: "Yoke",
+            text: "Place first and last "+(this.state.underArmJoin/2)+" stitches of the body on a holder. Using largest circular need and starting at the back left sleeve, knit "+(this.state.sleeveMax - this.state.underArmJoin)+" sleeve stitches, and place a marker. Knit the next "+((this.state.castOn - (2*this.state.underArmJoin))/4)+" stitches on the front, and place next "+this.state.underArmJoin+" stitches of body on holder. Knit "+(this.state.sleeveMax - this.state.underArmJoin)+" stitches on the right sleeve and place marker. Knit the next "+((this.state.castOn - (2*this.state.underArmJoin))/4)+" stitches of back, place marker and join in the round "+this.state.yoke+" stitches.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit in the round until yoke is "+(this.state.yokeDepth/2)+" inches, about ({yoke depth}*{vgauge}/2) rounds.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit 1, knit 2 together, all the way around, "+(Math.round(this.state.yoke*(2/3)))+" stitches remaining.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(this.state.yokeDepth/4))+" inches.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit 1, knit 2 together, all the way around, "+(Math.round(this.state.yoke*((2/3)^2)))+" stitches remaining.",
+            imgSrc: "",
+            counter: true
+        },
+        {
+            sectionName: "Yoke",
+            text: "Knit in the round for another ROUND({yoke depth}*{vgauge}/4) rounds, about "+(Math.round(this.state.yokeDepth/4))+" inches.",
+            imgSrc: "",
+            counter: false
+        },
+        {
+            sectionName: "Yoke",
+            text: "That's the whole pattern! Tap the resize button to start over.",
+            imgSrc: "",
+            counter: false
+        }
     ];}
    
     render () {
@@ -171,6 +173,7 @@ class YokeScreen extends Component {
                         step={this.state.step}
                         oldNotes={this.state.notes[this.state.step]}
                         onNextStep={this.nextStepHandler}
+                        saveNotes={(notes)=>this.submitNotesHandler(notes)}
                         onModalClosed={()=>{alert("closed modal")}}
                          />
                 </View>
